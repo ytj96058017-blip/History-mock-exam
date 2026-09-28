@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2026학년도 중학교 3학년 2학기 역사 모의평가</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for Portfolio analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Myeongjo:wght@700;800&display=swap');
+
+    * {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .serif-title {
+      font-family: 'Nanum Myeongjo', serif;
+    }
+
+    .paper-sheet {
+      background: #ffffff;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+    }
+
+    input[type="text"] {
+      font-size: 16px !important;
+    }
+
+    .choice-card:hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+    .choice-card:active {
+      transform: scale(0.99);
+    }
+    .choice-card.selected {
+      background-color: #eff6ff;
+      border-color: #2563eb;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .passage-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #1e3a8a;
+    }
+
+    .figure-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bogi-box {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      padding: 0.85rem 1rem;
+      margin-top: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    @keyframes redPulse {
+      0%, 100% { color: #dc2626; transform: scale(1); }
+      50% { color: #ef4444; transform: scale(1.05); }
+    }
+    .urgent-timer {
+      animation: redPulse 1s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <div id="app" class="flex-1 flex flex-col">
+    <!-- Global Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+      <div class="max-w-5xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-900 text-white flex items-center justify-center font-bold text-xs sm:text-sm shadow-xs shrink-0">
+            역사
+          </div>
+          <div>
+            <h1 class="serif-title text-sm sm:text-lg font-black tracking-tight text-slate-900 leading-tight">
+              중3 역사 지필평가 실전 모의고사
+            </h1>
+            <p class="hidden sm:block text-[11px] text-slate-500 font-medium">IV. 조선의 성립과 발전 ~ V. 조선 사회의 변동 (실학·국학) · 25문항 100점 만점</p>
+          </div>
+        </div>
+
+        <!-- Student Badge & Timer Header Info -->
+        <div id="headerExamInfo" class="hidden flex items-center space-x-2 sm:space-x-4">
+          <div class="text-right">
+            <span id="headerStudentName" class="text-xs font-bold text-slate-800 block truncate max-w-[80px] sm:max-w-none"></span>
+          </div>
+          <div class="flex items-center space-x-1.5 bg-slate-100 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-slate-200">
+            <i class="fa-regular fa-clock text-slate-600 text-xs sm:text-sm"></i>
+            <span id="timerDisplay" class="font-mono font-bold text-xs sm:text-base text-slate-800">40:00</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- [화면 1] 시작 및 학생 인증 화면 -->
+    <section id="screenIntro" class="flex-1 flex items-center justify-center p-3 sm:p-6">
+      <div class="max-w-xl w-full paper-sheet rounded-2xl p-5 sm:p-10 my-2">
+        <div class="text-center mb-6 sm:mb-8 border-b border-slate-200 pb-5 sm:pb-6">
+          <span class="inline-block bg-blue-50 text-blue-700 text-[11px] sm:text-xs font-semibold px-3 py-0.5 rounded-full border border-blue-200 mb-2">
+            2026학년도 중학교 3학년 2학기 지필평가 대비
+          </span>
+          <h2 class="serif-title text-xl sm:text-3xl font-black text-slate-900 tracking-tight mb-1.5">
+            역사 실전 모의고사
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            출제 범위: IV. 조선의 성립과 발전 ~ V. 조선 사회의 변동 (3.2 서학 및 실학·국학 발달)
+          </p>
+        </div>
+
+        <div class="space-y-3.5 mb-6 sm:mb-8">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="inputPin">
+              학생 핀번호 (PIN 4~6자리)
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                <i class="fa-solid fa-key text-xs sm:text-sm"></i>
+              </span>
+              <input type="text" id="inputPin" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="예: 30512 (학번 또는 개별 부여 코드)"
+                class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm font-medium focus:outline-none focus:border-blue-900 focus:bg-white transition" />
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">처음 입력하는 번호는 구글 시트에 자동으로 신규 등록됩니다.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="inputName">
+              학생 성명 (실명)
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                <i class="fa-solid fa-user text-xs sm:text-sm"></i>
+              </span>
+              <input type="text" id="inputName" maxlength="10" autocomplete="off" placeholder="예: 김세영"
+                class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm font-medium focus:outline-none focus:border-blue-900 focus:bg-white transition" />
+            </div>
+          </div>
+
+          <div id="introStatusMsg" class="hidden p-3 rounded-xl text-xs font-medium border"></div>
+        </div>
+
+        <div class="bg-slate-50 rounded-xl p-3.5 sm:p-5 border border-slate-200 mb-6 sm:mb-8 text-xs text-slate-600 space-y-2 leading-relaxed">
+          <div class="font-bold text-slate-800 text-xs sm:text-sm flex items-center space-x-1.5 mb-1.5">
+            <i class="fa-solid fa-circle-info text-blue-700"></i>
+            <span>역사 지필평가 출제 기준 및 시스템 안내</span>
+          </div>
+          <div>1. <strong>시험 시간 및 배점:</strong> 총 40분, 5지선다형 25문항 (문항당 4점, 100점 만점)</div>
+          <div>2. <strong>난이도 변별력 배치:</strong> <strong>상 6문항, 중 13문항, 하 6문항</strong>으로 상위권 변별력 완벽 반영</div>
+          <div>3. <strong>사료·지문 심층 분석:</strong> 조선 삼사 역할, 조광조 개혁, 4대 사화, 예송·환국, 비변사·3대 조세 개편(영정법·대동법·균역법), 세도정치와 농민 봉기, 실학 4대 사상가 심층 출제</div>
+          <div>4. <strong>다회차 무중복 보장:</strong> 25개 고유 슬롯 $\times$ 4문항(100문항 매트릭스) 탑재로 5회 이상 연속 응시 시에도 중복 0% 보장</div>
+        </div>
+
+        <div class="space-y-2.5">
+          <button type="button" id="btnStartExam" onclick="handleStartVerification(event)" 
+            class="w-full py-3.5 bg-blue-900 active:bg-blue-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm cursor-pointer select-none">
+            <span id="btnStartExamText">학생 확인 및 역사 시험 시작</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+          
+          <button type="button" id="btnOpenPortfolioFromIntro" onclick="handleCheckPortfolioFromIntro(event)" 
+            class="w-full py-2.5 bg-white active:bg-slate-100 text-slate-700 font-medium rounded-xl border border-slate-300 transition text-xs flex items-center justify-center space-x-1.5 cursor-pointer select-none">
+            <i class="fa-solid fa-chart-pie text-blue-700"></i>
+            <span>누적 역사 포트폴리오 바로 보기</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- [화면 2] 시험장 화면 (Test Screen) -->
+    <section id="screenExam" class="hidden flex-1 max-w-5xl w-full mx-auto p-2.5 sm:p-6 space-y-4 sm:space-y-6">
+      <!-- OMR Minimap & Progress -->
+      <div class="paper-sheet rounded-2xl p-3.5 sm:p-5">
+        <div class="flex items-center justify-between gap-2 mb-2.5 pb-2.5 border-b border-slate-200">
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-xs sm:text-sm text-slate-800">OMR 마킹 현황</span>
+            <span id="answeredCountBadge" class="text-[11px] sm:text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-200">
+              0 / 25 완료
+            </span>
+          </div>
+          <div class="flex items-center space-x-2 text-[11px] text-slate-500">
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-rose-500 mr-1"></span>상(고난도)</span>
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-blue-500 mr-1"></span>중</span>
+            <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 mr-1"></span>하</span>
+          </div>
+        </div>
+
+        <div id="omrGrid" class="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-25 gap-1 text-center text-xs font-bold"></div>
+      </div>
+
+      <!-- Main Question Sheet -->
+      <div class="paper-sheet rounded-2xl p-4 sm:p-8 min-h-[480px] flex flex-col justify-between">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 sm:pb-4 mb-4 sm:mb-6">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+              <span id="qBadgeNum" class="text-base sm:text-xl font-black text-slate-900 serif-title">[01]</span>
+              <span id="qBadgeDiff" class="text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-bold text-white shadow-xs">난이도</span>
+              <span id="qBadgeUnit" class="text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-semibold bg-blue-50 text-blue-900 border border-blue-200 truncate max-w-[200px] sm:max-w-none">영역</span>
+              <span id="qBadgeTopic" class="text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-semibold bg-slate-100 text-slate-700 border border-slate-200">핵심주제</span>
+            </div>
+            <div class="text-[11px] sm:text-xs text-slate-400 font-medium">배점: 4점</div>
+          </div>
+
+          <div class="space-y-4 mb-6 sm:mb-8">
+            <!-- Passage Box (사료 및 지문) -->
+            <div id="qPassageContainer" class="hidden passage-box p-3.5 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-700 leading-relaxed font-normal whitespace-pre-line"></div>
+            <!-- Historical Figure / SVG Graphic Container (학습지 시각 자료) -->
+            <div id="qFigureContainer" class="hidden figure-box mb-4"></div>
+            <!-- Question prompt -->
+            <div id="qText" class="text-sm sm:text-lg font-medium text-slate-900 leading-relaxed"></div>
+          </div>
+
+          <!-- Choices container -->
+          <div id="qChoices" class="space-y-2 sm:space-y-2.5 mb-6 sm:mb-8"></div>
+        </div>
+
+        <!-- Question Bottom Action Bar -->
+        <div class="flex items-center justify-between pt-4 sm:pt-6 border-t border-slate-200">
+          <button type="button" id="btnPrevQ" onclick="navigateQuestion(-1)" 
+            class="px-3.5 py-2 sm:px-4 sm:py-2.5 bg-white border border-slate-300 active:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+            <span>이전 문항</span>
+          </button>
+
+          <div class="flex items-center space-x-2">
+            <button type="button" id="btnNextQ" onclick="navigateQuestion(1)" 
+              class="px-4 py-2 sm:px-5 sm:py-2.5 bg-slate-800 active:bg-slate-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition flex items-center space-x-1.5">
+              <span>다음 문항</span>
+              <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+            <button type="button" id="btnFinishExam" onclick="confirmSubmitExam()" 
+              class="hidden px-4 py-2 sm:px-5 sm:py-2.5 bg-blue-700 active:bg-blue-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+              <span>답안 제출</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [화면 3] 채점 결과 및 오답 풀이 (Result Screen) -->
+    <section id="screenResult" class="hidden flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
+      <div class="paper-sheet rounded-2xl p-5 sm:p-8">
+        <div class="text-center max-w-md mx-auto mb-6 sm:mb-8 border-b border-slate-200 pb-5 sm:pb-6">
+          <span class="inline-block bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold px-3 py-1 rounded-full mb-2">
+            <i class="fa-solid fa-circle-check mr-1"></i> 역사 모의평가 채점 완료
+          </span>
+          <h2 class="serif-title text-xl sm:text-3xl font-black text-slate-900 mb-1">
+            종합 성적 리포트
+          </h2>
+          <p id="resultStudentMeta" class="text-xs sm:text-sm text-slate-500"></p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+          <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 text-center col-span-2 sm:col-span-1">
+            <div class="text-[11px] sm:text-xs text-slate-500 font-semibold mb-1">최종 득점</div>
+            <div class="text-2xl sm:text-3xl font-black text-slate-900 font-mono">
+              <span id="resTotalScore">0</span><span class="text-xs sm:text-sm font-normal text-slate-400"> / 100</span>
+            </div>
+            <span id="resScoreSummary" class="text-[10px] sm:text-[11px] text-blue-700 font-semibold mt-1 block">정답 0 / 오답 0</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 text-center">
+            <div class="text-[11px] sm:text-xs text-slate-500 font-semibold mb-1">조선 건국·통치 체제</div>
+            <div class="text-lg sm:text-2xl font-bold text-blue-700 font-mono" id="resDomain1Score">0점</div>
+            <span class="text-[10px] text-slate-400">24점 만점</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 text-center">
+            <div class="text-[11px] sm:text-xs text-slate-500 font-semibold mb-1">사림 성장·사화·붕당</div>
+            <div class="text-lg sm:text-2xl font-bold text-indigo-700 font-mono" id="resDomain2Score">0점</div>
+            <span class="text-[10px] text-slate-400">20점 만점</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 text-center">
+            <div class="text-[11px] sm:text-xs text-slate-500 font-semibold mb-1">대외 관계·양난·변동</div>
+            <div class="text-lg sm:text-2xl font-bold text-cyan-700 font-mono" id="resDomain3Score">0점</div>
+            <span class="text-[10px] text-slate-400">28점 만점</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 text-center">
+            <div class="text-[11px] sm:text-xs text-slate-500 font-semibold mb-1">사회 변동·농민 봉기·실학</div>
+            <div class="text-lg sm:text-2xl font-bold text-violet-700 font-mono" id="resDomain4Score">0점</div>
+            <span class="text-[10px] text-slate-400">28점 만점</span>
+          </div>
+        </div>
+
+        <!-- 난이도별 정답 현황 미니 배너 -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-6 sm:mb-8 flex items-center justify-around text-xs">
+          <div class="text-center">
+            <span class="text-rose-600 font-bold block">고난도 [상]</span>
+            <span id="resDiffHard" class="font-mono font-bold text-slate-800 text-sm">0 / 6</span>
+          </div>
+          <div class="h-6 w-px bg-slate-300"></div>
+          <div class="text-center">
+            <span class="text-blue-600 font-bold block">중간 난도 [중]</span>
+            <span id="resDiffMed" class="font-mono font-bold text-slate-800 text-sm">0 / 13</span>
+          </div>
+          <div class="h-6 w-px bg-slate-300"></div>
+          <div class="text-center">
+            <span class="text-emerald-600 font-bold block">기본 개념 [하]</span>
+            <span id="resDiffEasy" class="font-mono font-bold text-slate-800 text-sm">0 / 6</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
+          <button type="button" onclick="handleViewPortfolio()" 
+            class="w-full sm:w-auto px-5 py-3 bg-blue-900 active:bg-blue-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>역사 4대 핵심 영역 포트폴리오 분석 보기</span>
+          </button>
+          <button type="button" onclick="handleRestartClinic()" 
+            class="w-full sm:w-auto px-5 py-3 bg-white active:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>틀린 문제만 다시 풀기 (오답 클리닉)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Review Section -->
+      <div class="paper-sheet rounded-2xl p-4 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200">
+          <div>
+            <h3 class="serif-title text-base sm:text-xl font-bold text-slate-900">
+              문항별 정답 및 역사 학습지 대조 심층 해설
+            </h3>
+            <p class="text-xs text-slate-500">고난도 사료 분석과 학습지 핵심 개념을 꼼꼼하게 복습하세요.</p>
+          </div>
+          <div class="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold self-start sm:self-auto">
+            <button type="button" id="filterTabAll" onclick="setReviewFilter('ALL')" 
+              class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 transition">
+              전체 문항 (25)
+            </button>
+            <button type="button" id="filterTabWrong" onclick="setReviewFilter('WRONG')" 
+              class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+              오답만 보기
+            </button>
+          </div>
+        </div>
+        <div id="reviewQuestionsContainer" class="space-y-4 sm:space-y-6"></div>
+      </div>
+    </section>
+
+    <!-- [화면 4] 학생 누적 학습 포트폴리오 (Portfolio Screen) -->
+    <section id="screenPortfolio" class="hidden flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
+      <div class="paper-sheet rounded-2xl p-4 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8 border-b border-slate-200 pb-4 sm:pb-6">
+          <div>
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="text-[11px] font-bold px-2 py-0.5 bg-blue-100 text-blue-900 rounded">
+                HISTORY PORTFOLIO
+              </span>
+              <span id="portfolioPinBadge" class="text-xs font-mono text-slate-500">PIN: -</span>
+            </div>
+            <h2 class="serif-title text-lg sm:text-3xl font-black text-slate-900">
+              <span id="portfolioStudentName">-</span> 학생의 누적 역사 성취도 분석
+            </h2>
+          </div>
+          <button type="button" onclick="handleBackFromPortfolio()" 
+            class="px-3.5 py-1.5 bg-white active:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-300 transition flex items-center space-x-1.5 self-start sm:self-center">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>돌아가기</span>
+          </button>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 sm:p-5 border border-blue-200 mb-6 sm:mb-8">
+          <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-xs sm:text-sm shrink-0 shadow-xs">
+              <i class="fa-solid fa-landmark"></i>
+            </div>
+            <div>
+              <h4 class="text-xs sm:text-sm font-bold text-slate-800 mb-0.5">AI 맞춤 역사 진단 피드백</h4>
+              <p id="portfolioAiFeedback" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                데이터를 분석 중입니다...
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>회차별 득점 추이</span>
+              <span class="text-[10px] text-slate-400 font-normal">누적 성장 곡선</span>
+            </h4>
+            <div class="relative h-52 sm:h-60">
+              <canvas id="chartScoreRounds"></canvas>
+            </div>
+          </div>
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>역사 4대 핵심 영역별 정답률 (%)</span>
+              <span class="text-[10px] text-slate-400 font-normal">역량 레이더</span>
+            </h4>
+            <div class="relative h-52 sm:h-60">
+              <canvas id="chartDomainRadar"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">
+            세부 소단원별 정답률 통계
+          </h4>
+          <div id="portfolioTopicBars" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3.5"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Custom Modal -->
+  <div id="customModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white max-w-sm w-full rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-200 text-center transform transition-all">
+      <div id="modalIconContainer" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mx-auto flex items-center justify-center text-base sm:text-lg mb-3"></div>
+      <h3 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-900 mb-1.5"></h3>
+      <p id="modalDesc" class="text-xs text-slate-600 mb-5 leading-relaxed"></p>
+      <div id="modalButtons" class="flex items-center justify-center space-x-2"></div>
+    </div>
+  </div>
+
+  <footer class="bg-white border-t border-slate-200 py-3 sm:py-4 text-center text-[11px] sm:text-xs text-slate-400">
+    <p>중학교 3학년 역사 모의평가 시스템 &middot; IV. 조선의 성립과 발전 ~ V. 조선 사회의 변동</p>
+  </footer>
+
+  <script>
+    // Safe storage wrapper for cross-device & iOS Safari Private Mode stability
+    const safeStorage = {
+      _mem: {},
+      getItem(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          return this._mem[key] || null;
+        }
+      },
+      setItem(key, val) {
+        try {
+          localStorage.setItem(key, val);
+        } catch (e) {
+          this._mem[key] = String(val);
+        }
+      },
+      removeItem(key) {
+        try {
+          localStorage.removeItem(key);
+        } catch (e) {
+          delete this._mem[key];
+        }
+      }
+    };
+
+    // 최신 배포된 역사 모의평가 Google Apps Script Web App URL 연동
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxnvFclbfh2ML6PtYsogkx5jnE6O_qZT23LeJ19sik5bpDM6e_ZY5oSvCl05rZr6-xi/exec";
+    const EXAM_DURATION_SEC = 40 * 60; // 40분
+
+    const DOMAIN_KEYS = [
+      "조선 건국과 통치 체제",
+      "사림 성장과 사화·붕당",
+      "대외 관계와 양난·변동",
+      "사회 변동과 농민봉기·실학"
+    ];
+
+    const state = {
+      studentPin: "",
+      studentName: "",
+      verifiedStatus: null,
+      currentExamRound: 1,
+      examQuestions: [],
+      currentQuestionIndex: 0,
+      userAnswers: {},
+      timeRemaining: EXAM_DURATION_SEC,
+      timerInterval: null,
+      examStartTime: null,
+      examSubmitted: false,
+      reviewFilter: 'ALL',
+      scoreData: null,
+      roundsHistory: [],
+      domainStats: {},
+      topicStats: {}
+    };
+
+    let roundsChartInstance = null;
+    let radarChartInstance = null;
+
+    // Mobile-friendly JSONP server communication to bypass mobile CORS/302 restrictions
+    function callServerJsonp(action, params = {}, timeoutMs = 4000) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'gas_history_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        const script = document.createElement('script');
+        let timer = null;
+
+        window[callbackName] = function(data) {
+          cleanup();
+          resolve(data);
+        };
+
+        function cleanup() {
+          if (timer) clearTimeout(timer);
+          if (script.parentNode) script.parentNode.removeChild(script);
+          delete window[callbackName];
+        }
+
+        timer = setTimeout(() => {
+          cleanup();
+          reject(new Error("서버 응답 지연 (Timeout)"));
+        }, timeoutMs);
+
+        script.onerror = function() {
+          cleanup();
+          reject(new Error("네트워크 연결 실패"));
+        };
+
+        const queryParts = [`action=${encodeURIComponent(action)}`, `callback=${callbackName}`];
+        for (const k in params) {
+          queryParts.push(`${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`);
+        }
+
+        script.src = `${GOOGLE_SCRIPT_URL}?${queryParts.join('&')}`;
+        document.body.appendChild(script);
+      });
+    }
+
+    // Local permanent student portfolio backup
+    function saveStudentPortfolioLocally(pin, name, roundData, itemLogs) {
+      try {
+        const key = `history_worksheet_portfolio_${pin}`;
+        let portfolio = { 
+          name: name, 
+          pin: pin, 
+          rounds: [], 
+          domainStats: {
+            "조선 건국과 통치 체제": { total: 0, correct: 0 },
+            "사림 성장과 사화·붕당": { total: 0, correct: 0 },
+            "대외 관계와 양난·변동": { total: 0, correct: 0 },
+            "사회 변동과 농민봉기·실학": { total: 0, correct: 0 }
+          },
+          topicStats: {} 
+        };
+        const saved = safeStorage.getItem(key);
+        if (saved) {
+          try { portfolio = JSON.parse(saved); } catch (e) {}
+        }
+
+        portfolio.name = name;
+        portfolio.rounds.push(roundData);
+
+        if (itemLogs && itemLogs.length > 0) {
+          itemLogs.forEach(item => {
+            const unit = item.unit || "조선 건국과 통치 체제";
+            const topic = item.subTopic || unit;
+
+            if (!portfolio.domainStats[unit]) {
+              portfolio.domainStats[unit] = { total: 0, correct: 0 };
+            }
+            portfolio.domainStats[unit].total += 1;
+            if (item.isCorrect) portfolio.domainStats[unit].correct += 1;
+
+            if (!portfolio.topicStats[topic]) {
+              portfolio.topicStats[topic] = { total: 0, correct: 0 };
+            }
+            portfolio.topicStats[topic].total += 1;
+            if (item.isCorrect) portfolio.topicStats[topic].correct += 1;
+          });
+        }
+
+        safeStorage.setItem(key, JSON.stringify(portfolio));
+        return portfolio;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function getStudentPortfolioLocally(pin) {
+      try {
+        const saved = safeStorage.getItem(`history_worksheet_portfolio_${pin}`);
+        return saved ? JSON.parse(saved) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function shuffleChoices(choices, correctIndex) {
+      const items = choices.map((c, i) => ({ text: c, isCorrect: i === correctIndex }));
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+      return {
+        choices: items.map(it => it.text),
+        answerIndex: items.findIndex(it => it.isCorrect)
+      };
+    }
+
+    // 25개 고유 평가 슬롯 (난이도 상 6문항 고정 보장: Q05, Q09, Q13, Q17, Q21, Q25)
+    const SLOT_MATRIX = [
+      // [슬롯 01] 조선 건국 과정과 수도 한양 (난이도: 하)
+      [
+        {
+          id: "H_S01_01", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "조선 건국 과정",
+          passage: `역사 학습지 1쪽 <조선 건국 과정 4단계>:\n(1) 위화도 회군(1388): 이성계의 권력 장악, 정도전 등 급진파 사대부와 개혁 추진\n(2) 과전법 실시(1391): 전·현직 관료에게 경기 지역 토지의 수조권 지급\n(3) 조선 건국(1392): 온건파 사대부(정몽주 등) 제거, 국호 '조선' 제정\n(4) 한양 천도(1394): 한반도 중앙, 한강 교통 편리, 산으로 둘러싸여 방어에 유리`,
+          text: "위 학습지 내용을 바탕으로 조선의 건국 과정과 한양 천도에 대해 옳지 않게 설명한 것은?",
+          choices: [
+            "위화도 회군을 계기로 이성계와 급진파 사대부가 권력을 장악하였다.",
+            "과전법을 실시하여 전국의 모든 토지를 양반에게 영구 사유지로 분배하였다.",
+            "신진 사대부의 경제적 기반 마련과 국가 재정 확보를 위해 과전법을 제정하였다.",
+            "정몽주 등 고려 왕조를 지키려던 온건파 사대부를 제거하고 새 왕조를 열었다.",
+            "한양은 한반도의 중앙에 위치하고 한강을 통한 수운이 편리하여 도읍지로 선정되었다."
+          ],
+          answer: 1,
+          explanation: "과전법은 전국 토지가 아니라 '경기 지역 토지'에 한하여 전·현직 관료에게 세금을 거둘 수 있는 권리(수조권)를 준 제도이며, 토지 자체를 사유지로 준 것이 아닙니다."
+        },
+        {
+          id: "H_S01_02", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "조선 건국 과정",
+          passage: `1391년 고려 말 공양왕 때 실시된 토지 제도로, 권문세족의 토지를 몰수하고 전·현직 관리에게 경기 지역의 토지에 한하여 수조권을 나누어 주었다.`,
+          text: "이 제도의 명칭으로 옳은 것은?",
+          choices: ["과전법", "직전법", "녹읍", "식읍", "전시과"],
+          answer: 0,
+          explanation: "고려 말 신진 사대부의 경제적 기반을 마련하고 국가 재정을 확충하기 위해 실시된 제도는 과전법입니다."
+        },
+        {
+          id: "H_S01_03", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "조선 건국 과정",
+          passage: `조선의 건국을 주도한 세력은 이성계 등 신흥 무인 세력과 정도전 등 급진파 사대부였다. 이들은 성리학을 통치 이념으로 삼아 새로운 유교 국가를 건설하고자 하였다.`,
+          text: "조선 건국의 역사적 의의로 가장 적절한 것은?",
+          choices: [
+            "가문보다 유교적 학식과 개인의 능력을 중시하고, 불교 대신 성리학이 사회의 중심 규범이 되었다.",
+            "골품제도를 엄격히 부활시켜 진골 귀족의 특권을 영구히 보장하였다.",
+            "불교를 국교로 삼아 전국 각지에 대형 사찰과 불상을 대량 건립하였다.",
+            "귀족 중심의 음서제를 대폭 확대하여 시험 없이 고위 관직을 독점하게 하였다.",
+            "무신정변을 계기로 무신들이 최고 집권 기구를 만들어 국정을 장악하였다."
+          ],
+          answer: 0,
+          explanation: "조선 건국으로 가문보다 개인의 유교적 능력과 학식이 중시되었으며, 불교 대신 성리학이 통치와 생활의 중심 이념으로 자리 잡았습니다."
+        },
+        {
+          id: "H_S01_04", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "조선 건국 과정",
+          passage: `조선의 도읍지 한양은 북악산, 인왕산, 남산, 낙산의 4대 산으로 둘러싸여 외적을 방어하기에 유리하고, 한강이 흘러 조운과 물자 수송에 매우 적합하였다.`,
+          text: "태조 이성계가 수도를 한양으로 옮긴 해는 언제인가?",
+          choices: ["1394년", "1388년", "1391년", "1392년", "1446년"],
+          answer: 0,
+          explanation: "위화도 회군(1388) $\rightarrow$ 과전법(1391) $\rightarrow$ 조선 건국(1392) $\rightarrow$ 한양 천도(1394) 순으로 전개되었습니다."
+        }
+      ],
+
+      // [슬롯 02] 정도전의 사상과 재상 중심의 왕도 정치 (난이도: 중)
+      [
+        {
+          id: "H_S02_01", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "정도전의 정치사상",
+          passage: `"임금의 직책은 한 사람의 훌륭한 재상을 선택하여 도맡기는 데 있을 뿐입니다. 어진 재상이 영의정·좌의정·우의정의 의정부에서 백관을 통솔하고 국정을 총괄할 때 나라는 태평해집니다." - 정도전, 『조선경국전』 -`,
+          text: "위 글에 나타난 정도전의 정치 구상에 대한 설명으로 가장 적절한 것은?",
+          choices: [
+            "국왕 1인의 독단적 권력 행사를 경계하고 의정부 재상 중심의 정치를 강조하였다.",
+            "왕권을 절대화하여 신하들의 건의나 비판을 일체 금지하였다.",
+            "공신과 왕자들의 사병을 대폭 육성하여 무력으로 다스리고자 하였다.",
+            "도교와 불교 의례를 국가 최고 통치 원리로 삼자고 주장하였다.",
+            "모든 군사 통수권을 왕세자에게 일임하는 군정 체제를 추구하였다."
+          ],
+          answer: 0,
+          explanation: "정도전은 국왕 1인이 모든 것을 결정하기보다 유교적 덕망과 능력을 갖춘 재상(영의정·좌의정·우의정) 중심의 정치와 민본적 왕도 정치를 강조하였습니다."
+        },
+        {
+          id: "H_S02_02", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "정도전의 정치사상",
+          passage: `정도전은 『조선경국전』, 『경제문감』 등을 저술하여 국가 제도의 기틀을 마련하고, 한양 도성의 궁궐(경복궁)과 4대문의 이름을 성리학적 유교 덕목(인·의·예·지)을 담아 지었다.`,
+          text: "정도전이 추구한 국가 통치 이념은 무엇인가?",
+          choices: ["성리학 (유교)", "풍수지리설", "선종 불교", "양명학", "도교 비기 사상"],
+          answer: 0,
+          explanation: "정도전은 철저한 성리학적 통치 이념을 바탕으로 제도와 도성을 설계하였습니다."
+        },
+        {
+          id: "H_S02_03", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "정도전의 정치사상",
+          passage: `조선 초기 정치 체제를 둘러싸고 정도전의 '재상 중심 정치론'과 이방원(태종)의 '강력한 국왕 중심 정치론'이 첨예하게 대립하였다.`,
+          text: "이 갈등의 결과로 일어난 역사적 사건은?",
+          choices: ["제1차 왕자의 난 (1398)", "위화도 회군 (1388)", "계유정난 (1453)", "중종반정 (1506)", "인조반정 (1623)"],
+          answer: 0,
+          explanation: "1398년 이방원은 반란을 일으켜 세자 이방석과 그를 지지하던 정도전 등을 살해하고 권력을 장악하였는데, 이를 '제1차 왕자의 난'이라고 합니다."
+        },
+        {
+          id: "H_S02_04", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "정도전의 정치사상",
+          passage: `정도전이 강조한 '백성을 근본으로 여기고, 인격과 유교적 덕망으로 나라를 다스리는 정치'를 뜻하는 용어는?`,
+          text: "위 정치 형태의 명칭으로 옳은 것은?",
+          choices: ["왕도 정치 (민본 사상)", "패도 정치", "신권 독재", "군벌 정치", "외척 세도"],
+          answer: 0,
+          explanation: "백성을 나라의 근본으로 삼고 도덕과 예의로 다스리는 정치를 '왕도 정치'라고 부릅니다."
+        }
+      ],
+
+      // [슬롯 03] 태종과 세종의 왕권 및 유교 정치 (호패법, 사병 혁파, 집현전, 경연) (난이도: 하)
+      [
+        {
+          id: "H_S03_01", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "태종과 세종의 정책",
+          svg: `<svg viewBox="0 0 280 140" class="max-w-[260px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="280" height="140" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+            <rect x="30" y="20" width="70" height="100" rx="6" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+            <circle cx="65" cy="32" r="5" fill="#78350f"/>
+            <line x1="65" y1="20" x2="65" y2="27" stroke="#78350f" stroke-width="2"/>
+            <text x="65" y="60" font-size="12" font-weight="bold" fill="#78350f" text-anchor="middle">金世榮</text>
+            <text x="65" y="80" font-size="9" fill="#92400e" text-anchor="middle">丁未生</text>
+            <text x="65" y="100" font-size="8" fill="#b45309" text-anchor="middle">漢城府</text>
+            <text x="120" y="45" font-size="13" font-weight="bold" fill="#1e3a8a">[호패(號牌)]</text>
+            <text x="120" y="70" font-size="10" fill="#334155">• 16세 이상 모든 남성 착용</text>
+            <text x="120" y="90" font-size="10" fill="#334155">• 신분, 거주지, 군역 명시</text>
+            <text x="120" y="110" font-size="10" fill="#2563eb" font-weight="bold">태종 이방원 실시</text>
+          </svg>`,
+          passage: `역사 학습지 3쪽 <4인 4색 왕들의 정책 - 태종 이방원>:\n- "강력한 왕권! 왕권을 위협하는 요소는 모두 제거한다!"\n- 공신과 왕자들의 [사병] 혁파 $\rightarrow$ 군사권을 국왕이 독점\n- 16세 이상 모든 남성에게 [호패] 발급 $\rightarrow$ 인구 파악, 세금 징수와 군역 확보`,
+          text: "위 그림의 유물과 태종의 업적에 대한 설명으로 옳은 것은?",
+          choices: [
+            "호패법을 실시하여 국가의 인구를 정확히 파악하고 군역과 조세를 확보하였다.",
+            "집현전을 설치하여 젊은 학자들에게 훈민정음을 창제하도록 하였다.",
+            "직전법을 시행하여 현직 관리에게만 수조권을 지급하였다.",
+            "소격서를 폐지하고 추천제인 현량과를 전격 실시하였다.",
+            "『경국대전』을 최종 완성하여 전국에 반포하였다."
+          ],
+          answer: 0,
+          explanation: "태종은 사병 혁파와 호패법 실시, 6조 직계제 등을 통해 강력한 왕권을 확립하였습니다."
+        },
+        {
+          id: "H_S03_02", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "태종과 세종의 정책",
+          passage: `세종대왕은 왕권과 신권의 조화를 추구하며 의정부의 권한을 강화(의정부 서사제)하고, 학문 연구와 정책 자문을 전담하는 학술 기구인 (  ㉠  )을 설치하고 왕과 신하가 유교 경전을 공부하며 나랏일을 토론하는 (  ㉡  )을 활성화하였다.`,
+          text: "㉠과 ㉡에 들어갈 기구와 제도를 바르게 짝지은 것은?",
+          choices: [
+            "㉠ 집현전 - ㉡ 경연",
+            "㉠ 홍문관 - ㉡ 서연",
+            "㉠ 승정원 - ㉡ 규장각",
+            "㉠ 춘추관 - ㉡ 상소",
+            "㉠ 교정도감 - ㉡ 서당"
+          ],
+          answer: 0,
+          explanation: "세종은 집현전을 설치하고 경연을 크게 활성화하여 인재를 양성하고 유교 정치를 꽃피웠습니다."
+        },
+        {
+          id: "H_S03_03", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "태종과 세종의 정책",
+          passage: `조선 시대 16세 이상의 모든 양인과 노비 남성이 차고 다녔던 나무나 뿔로 만든 '조선판 주민등록증'의 명칭은?`,
+          text: "위 유물의 명칭으로 옳은 것은?",
+          choices: ["호패", "공명첩", "마패", "교지", "부적"],
+          answer: 0,
+          explanation: "태종 때 제정되어 남성들의 신분과 거주지를 증명하던 신분증은 '호패'입니다."
+        },
+        {
+          id: "H_S03_04", difficulty: "하", unit: "조선 건국과 통치 체제", subTopic: "태종과 세종의 정책",
+          passage: `세종대왕의 민본 사상과 학문적 업적으로 옳지 않은 것은?`,
+          text: "세종 때 일어난 사실로 옳지 않은 것은?",
+          choices: [
+            "세조의 왕위 찬탈을 돕기 위해 계유정난을 주도하였다.",
+            "백성들의 문자 생활을 위해 1446년 훈민정음을 반포하였다.",
+            "우리나라 실정에 맞는 농업 기술을 정리한 『농사직설』을 편찬하였다.",
+            "한양을 기준으로 천체 운동을 계산한 역법서인 『칠정산』을 편찬하였다.",
+            "의정부의 재상들과 국정을 협의하는 의정부 서사제를 운영하였다."
+          ],
+          answer: 0,
+          explanation: "계유정난(1453)은 단종을 몰아내고 권력을 잡은 세조(수양대군)의 일입니다."
+        }
+      ],
+
+      // [슬롯 04] 세조와 성종의 통치 체제 정비 (직전법, 홍문관, 경국대전) (난이도: 중)
+      [
+        {
+          id: "H_S04_01", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "세조와 성종의 업적",
+          passage: `역사 학습지 3쪽 <세조와 성종의 비교>:\n[세조 (수양대군)]\n- 어린 조카(단종)를 몰아내고 왕위 찬탈 (계유정난)\n- 신하들의 비판을 막기 위해 [집현전] 폐지, [경연] 중단\n- 관리에게 줄 토지가 부족해지자 '현직 관리'에게만 수조권을 주는 [직전법] 시행\n- 『경국대전』 편찬 시작\n\n[성종]\n- 집현전을 계승한 [홍문관] 설치, 경연 재개\n- 『[경국대전]』 최종 완성 및 반포 $\rightarrow$ 조선의 유교적 법치 질서 완성`,
+          text: "세조와 성종의 정책에 대한 설명으로 옳은 것만을 <보기>에서 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄹ",
+            "ㄱ, ㄷ",
+            "ㄴ, ㄷ",
+            "ㄷ, ㄹ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄷ은 오답입니다. 직전법은 퇴직 관리가 아니라 '현직 관리'에게만 지급한 제도입니다. (ㄱ, ㄴ, ㄹ 정답)"
+        },
+        {
+          id: "H_S04_02", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "세조와 성종의 업적",
+          passage: `세조 때 토지가 부족해지자 전직 관리의 수조권을 회수하고, 오직 '현직 관리'에게만 경기 지역의 수조권을 지급하도록 개편한 토지 제도는?`,
+          text: "위 제도의 명칭으로 옳은 것은?",
+          choices: ["직전법", "과전법", "대동법", "영정법", "녹읍"],
+          answer: 0,
+          explanation: "과전법의 토지 부족 문제를 해결하기 위해 현직 관리에게만 지급한 토지 제도는 '직전법'입니다."
+        },
+        {
+          id: "H_S04_03", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "세조와 성종의 업적",
+          passage: `세조 때 편찬을 시작하여 성종 때 완성·반포된 조선 최고의 기본 법전으로, 이전·호전·예전·병전·형전·공전의 6전 체제로 구성되어 유교적 법치 국가의 기틀을 확립한 서적은?`,
+          text: "위 법전의 명칭은?",
+          choices: ["『경국대전』", "『조선경국전』", "『속대전』", "『대전통편』", "『대전회통』"],
+          answer: 0,
+          explanation: "성종 때 완성 반포되어 통치 체제를 최종 완성한 조선의 성문 법전은 『경국대전』입니다."
+        },
+        {
+          id: "H_S04_04", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "세조와 성종의 업적",
+          passage: `성종은 세조 때 폐지되었던 집현전을 계승하여 학문 연구와 국왕의 정책 자문, 경연을 담당하도록 이 기구를 궁궐 내에 설치하였다.`,
+          text: "옥당(玉堂)이라고도 불렸던 이 기구의 이름은?",
+          choices: ["홍문관", "승정원", "의금부", "춘추관", "교서관"],
+          answer: 0,
+          explanation: "집현전을 계승하여 성종 때 설치된 자문 및 경연 기구는 '홍문관'입니다."
+        }
+      ],
+
+      // [슬롯 05] [고난도 상 ①] 조선의 3사(사헌부·사간원·홍문관)의 구조와 권력 견제 메커니즘
+      [
+        {
+          id: "H_S05_01", difficulty: "상", unit: "조선 건국과 통치 체제", subTopic: "중앙 정치 제도와 3사",
+          svg: `<svg viewBox="0 0 340 160" class="max-w-[320px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="340" height="160" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+            <!-- 국왕 -->
+            <rect x="135" y="12" width="70" height="28" rx="5" fill="#dc2626" />
+            <text x="170" y="31" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">국왕(왕권)</text>
+            <!-- 승정원/의금부 -->
+            <rect x="15" y="15" width="75" height="24" rx="4" fill="#fecaca" stroke="#dc2626" stroke-width="1"/>
+            <text x="52" y="31" font-size="9" font-weight="bold" fill="#991b1b" text-anchor="middle">승정원·의금부</text>
+            <text x="52" y="47" font-size="8" fill="#b91c1c" text-anchor="middle">(왕권 강화)</text>
+            <!-- 3사 -->
+            <rect x="235" y="15" width="90" height="42" rx="5" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="280" y="32" font-size="10" font-weight="bold" fill="#1e40af" text-anchor="middle">삼사(3司)</text>
+            <text x="280" y="47" font-size="8" fill="#1d4ed8" text-anchor="middle">사헌부·사간원·홍문관</text>
+            <!-- 의정부 & 6조 -->
+            <path d="M170 40 L170 65" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <rect x="130" y="65" width="80" height="26" rx="4" fill="#334155" />
+            <text x="170" y="82" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">의정부(재상)</text>
+            <path d="M170 91 L170 110" stroke="#475569" stroke-width="1.5"/>
+            <rect x="80" y="110" width="180" height="26" rx="4" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+            <text x="170" y="127" font-size="10" font-weight="bold" fill="#1e293b" text-anchor="middle">6조 (이·호·예·병·형·공)</text>
+            <!-- 견제선 -->
+            <path d="M235 45 C 200 55, 180 50, 175 42" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3,3" fill="none"/>
+            <text x="215" y="70" font-size="8" font-weight="bold" fill="#2563eb">견제(언론)</text>
+          </svg>`,
+          passage: `조선의 중앙 정치 기구 중 '3사'는 다음과 같이 분업 체계를 이루었다.\n- (가): 관리들의 비리를 감찰하고 풍속을 바로잡으며, 관리를 임명할 때 동의하는 서경권을 행사함.\n- (나): 국왕의 잘못된 정책을 비판하고 간언하는 '간쟁'을 전담함.\n- (다): 궁중의 서적 보관과 왕의 정책 자문을 맡으며, 경연과 서연을 주관함.\n\n[학습지 분석]: 3사는 의정부나 6조와 달리 고위 관직이 아닌 주로 젊고 유능한 관원(청요직)들로 구성되어 권력의 독점과 부정을 방지하는 언론 역할을 수행하였다.`,
+          text: "위 도식도와 학습지 사료에 제시된 (가), (나), (다) 기구에 대한 설명으로 옳은 것만을 <보기>에서 있는 대로 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄹ",
+            "ㄱ, ㄷ",
+            "ㄴ, ㄷ",
+            "ㄷ, ㄹ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄷ은 오답입니다. 왕명을 출납하는 국왕의 비서실 역할을 한 기구는 3사가 아니라 '승정원'입니다. (ㄱ, ㄴ, ㄹ 정답)"
+        },
+        {
+          id: "H_S05_02", difficulty: "상", unit: "조선 건국과 통치 체제", subTopic: "중앙 정치 제도와 3사",
+          passage: `조선의 3사(사헌부·사간원·홍문관)와 고려의 삼사(三司)를 비교한 탐구 내용이다.`,
+          text: "두 기구의 차이점에 대한 설명으로 가장 적절한 것은?",
+          choices: [
+            "조선의 3사는 언론과 권력 견제 기구였지만, 고려의 삼사는 화폐와 곡식의 출납을 맡은 단순 회계 기구였다.",
+            "고려의 삼사가 국왕의 간쟁을 맡았고, 조선의 3사는 화폐 주조를 전담하였다.",
+            "두 기구 모두 최고 재상들이 모여 국정 전반을 총괄하는 합의 기구였다.",
+            "조선의 3사는 군사권을 장악하여 왕권을 능가하는 최고 권력 기구가 되었다.",
+            "고려와 조선의 삼사는 명칭과 기능이 완전히 일치하는 관청이었다."
+          ],
+          answer: 0,
+          explanation: "고려의 삼사는 단순한 회계(곡식·화폐 출납) 기구였으나, 조선의 3사는 권력 독점 방지와 비판을 담당하는 핵심 언론 기구였습니다."
+        },
+        {
+          id: "H_S05_03", difficulty: "상", unit: "조선 건국과 통치 체제", subTopic: "중앙 정치 제도와 3사",
+          passage: `조선 전기에는 왕권을 강화하는 기구와 왕권을 견제하는 기구가 조화를 이루며 통치 체제가 운영되었다.`,
+          text: "왕권을 강화하는 기구(A)와 왕권을 견제하는 기구(B)를 올바르게 묶은 것은?",
+          choices: [
+            "A: 승정원, 의금부 - B: 사헌부, 사간원, 홍문관",
+            "A: 사헌부, 홍문관 - B: 의정부, 승정원",
+            "A: 의정부, 한성부 - B: 6조, 의금부",
+            "A: 사간원, 춘추관 - B: 승정원, 성균관",
+            "A: 비변사, 훈련도감 - B: 사헌부, 승정원"
+          ],
+          answer: 0,
+          explanation: "국왕의 비서실인 승정원과 국왕 직속 사법 기구인 의금부는 왕권 강화 기구이며, 사헌부·사간원·홍문관의 3사는 왕권과 신권을 견제하는 언론 기구입니다."
+        },
+        {
+          id: "H_S05_04", difficulty: "상", unit: "조선 건국과 통치 체제", subTopic: "중앙 정치 제도와 3사",
+          passage: `학습지 7쪽 서술형 논술 주제: "붕당 정치 시기 조선 삼사의 부작용과 변질"`,
+          text: "제시문에 서술된 붕당 정치기 삼사의 2대 부작용으로 가장 적절한 것은?",
+          choices: [
+            "자신이 속한 붕당의 이익만을 대변하는 정쟁의 무기로 변질되었고, 대안 없는 맹목적 비판으로 국정 추진의 발목을 잡았다.",
+            "직접 군대를 동원하여 국왕을 시해하고 무신 정권을 수립하였다.",
+            "불교 승려들을 대거 등용하여 유교적 국가 의례를 전면 폐지하였다.",
+            "농민들에게 강제로 고리대를 놓아 사적인 재산을 축적하는 상업 기구로 전락하였다.",
+            "일본과의 무역 독점권을 행사하여 왜관 밀무역을 주도하였다."
+          ],
+          answer: 0,
+          explanation: "학습지 7쪽 논술 제시문에 명시된 삼사의 2대 부작용은 '붕당의 무기화(상대 붕당 숙청 공격)'와 '국가 정책 발목잡기(대안 없는 맹목적 비판)'입니다."
+        }
+      ],
+
+      // [슬롯 06] 지방 행정 제도(8도, 수령, 향리, 유향소)와 군사·교육 제도 (난이도: 중)
+      [
+        {
+          id: "H_S06_01", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "지방 행정과 군사 제도",
+          passage: `역사 학습지 5쪽 <조선 전기의 지방 행정 제도>:\n- 전국을 8도로 나누고 관찰사를 파견하여 수령을 지휘·감독함.\n- 모든 군현에 수령을 파견하여 지방의 행정·사법·군사권을 총괄하게 함.\n- 향리: 고려에 비해 지위가 격하되어 수령의 행정 실무를 보좌하는 아전이 됨.\n- 유향소: 지방 양반들의 자치 기구로, 수령의 자문에 응하고 향리의 비리를 감찰함.`,
+          text: "조선 전기의 지방 행정 제도에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "고려와 마찬가지로 수령이 파견되지 않는 속현과 향·부곡·소가 다수 존재하였다.",
+            "전국 8도에 관찰사를 파견하여 관내 수령들의 근무 성적을 평가하였다.",
+            "모든 군현에 수령을 파견함으로써 중앙 집권 체제를 한층 강화하였다.",
+            "향리는 세습적인 무보수직으로 수령 밑에서 행정 실무를 돕는 역할을 하였다.",
+            "유향소는 지방 사림 양반들이 향촌 자치와 풍속 교정을 위해 운영하였다."
+          ],
+          answer: 0,
+          explanation: "조선 시대에는 향·부곡·소 같은 특수 행정 구역이 소멸하여 일반 군현으로 승격되었고, 모든 군현에 수령이 파견되어 속현이 완전히 사라졌습니다."
+        },
+        {
+          id: "H_S06_02", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "지방 행정과 군사 제도",
+          passage: `조선의 군사 제도는 16~60세의 모든 양인 남성을 대상으로 군역의 의무를 부과하였다.`,
+          text: "조선 전기의 중앙군과 지방군 명칭을 바르게 짝지은 것은?",
+          choices: [
+            "중앙군: 5위 - 지방군: 육군(병마절도사), 수군(수군절도사)",
+            "중앙군: 2군 6위 - 지방군: 주현군, 주진군",
+            "중앙군: 훈련도감 - 지방군: 속오군",
+            "중앙군: 9서당 - 지방군: 10정",
+            "중앙군: 장용영 - 지방군: 친위대"
+          ],
+          answer: 0,
+          explanation: "조선 전기의 중앙군은 한양과 궁궐을 수비하는 '5위'였으며, 지방군은 각 도의 병마절도사(육군)와 수군절도사(수군)가 지휘하였습니다."
+        },
+        {
+          id: "H_S06_03", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "지방 행정과 군사 제도",
+          passage: `조선의 교육 및 관리 등용 제도:\n- 기초 교육: 서당 $\rightarrow$ 중등 교육: 서울의 4부 학당, 지방의 향교 $\rightarrow$ 최고 교육: 성균관\n- 관리 등용: 과거(문과, 무과, 잡과)`,
+          text: "조선의 관리 등용 제도에 대한 설명으로 옳은 것은?",
+          choices: [
+            "소과(생원·진사과) 합격자나 성균관 유생이 대과(문과)에 응시하여 합격해야 문관 관리가 될 수 있었다.",
+            "고려와 달리 무과가 아예 시행되지 않아 무관을 선발하지 못했다.",
+            "음서의 혜택 범위가 고려보다 크게 확대되어 과거를 보지 않아도 정승이 될 수 있었다.",
+            "노비와 백정 등 천민 계층도 문과에 자유롭게 응시하여 합격하였다.",
+            "잡과는 양반 자제들만 응시할 수 있는 최고급 관직 시험이었다."
+          ],
+          answer: 0,
+          explanation: "문관 관리가 되려면 소과를 거쳐 대과(문과)에 최종 합격해야 했으며, 음서는 범위가 축소되어 과거 없이 고위 관직으로 승진하기 어려웠습니다."
+        },
+        {
+          id: "H_S06_04", difficulty: "중", unit: "조선 건국과 통치 체제", subTopic: "지방 행정과 군사 제도",
+          passage: `국경 지대의 군사적 위급 상황을 낮에는 연기, 밤에는 불빛으로 중앙에 신속하게 전달하던 조선의 군사 통신 제도는?`,
+          text: "위 제도의 명칭은?",
+          choices: ["봉수제", "역원제", "파발제", "호패제", "사창제"],
+          answer: 0,
+          explanation: "학습지 5쪽: 위급한 군사 상황을 신속히 알리기 위해 정비한 통신 제도는 '봉수제'입니다."
+        }
+      ],
+
+      // [슬롯 07] 훈구 vs 사림의 대립과 사화의 시작 (무오사화, 김종직 조의제문) (난이도: 하)
+      [
+        {
+          id: "H_S07_01", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "훈구와 사림의 갈등",
+          passage: `역사 학습지 8쪽 <훈구와 사림의 비교>:\n- [훈구 세력]: 조선 건국과 세조의 집권을 도운 공신들, 많은 토지와 노비 소유, 부국강병 추구\n- [사림 세력]: 온건파 사대부(정몽주, 길재)의 학통 계승, 지방 향촌에서 학문과 교육에 힘씀, 도덕과 의리를 중시하는 왕도 정치와 향촌 자치 추구`,
+          text: "사림 세력의 특징으로 옳은 것은?",
+          choices: [
+            "온건파 사대부의 학통을 이어받아 도덕과 의리를 바탕으로 한 왕도 정치를 추구하였다.",
+            "세조의 왕위 찬탈을 도와 막대한 토지와 노비를 하사받아 권력을 독점하였다.",
+            "중앙 정계의 고위 관직을 대대로 독점하며 외척 가문을 형성하였다.",
+            "주로 6조의 판서 직책을 독점하며 3사의 언론 활동을 강력히 탄압하였다.",
+            "불교를 적극 후원하여 사찰 건축과 불경 번역 사업을 주도하였다."
+          ],
+          answer: 0,
+          explanation: "사림 세력은 정몽주와 길재의 학통을 이어받아 지방에서 서원과 향약을 바탕으로 성장하며 왕도 정치와 향촌 자치를 추구하였습니다."
+        },
+        {
+          id: "H_S07_02", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "훈구와 사림의 갈등",
+          passage: `성종은 비대해진 훈구 세력을 견제하기 위해 영남 출신의 김종직과 그의 제자들을 등용하였다. 이들은 주로 어떤 관직에 배치되었는가?`,
+          text: "사림들이 주로 진출하여 훈구의 비리를 비판한 자리는?",
+          choices: ["3사의 언관직 (사헌부·사간원·홍문관)", "의정부 삼정승", "6조의 판서", "승정원 도승지", "의금부 판사"],
+          answer: 0,
+          explanation: "성종은 훈구를 견제하고자 사림들을 3사의 언관직에 등용하여 비판과 감찰 기능을 맡겼습니다."
+        },
+        {
+          id: "H_S07_03", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "훈구와 사림의 갈등",
+          passage: `1498년 연산군 때, 사관 김일손이 사초에 실은 김종직의 글을 훈구 세력이 문제 삼아 많은 사림을 처형하고 유배 보낸 제1차 사화는?`,
+          text: "위 사건의 명칭은?",
+          choices: ["무오사화", "갑자사화", "기묘사화", "을사사화", "신유박해"],
+          answer: 0,
+          explanation: "김종직의 「조의제문」이 발단이 되어 연산군 때 일어난 최초의 사화는 '무오사화(1498)'입니다."
+        },
+        {
+          id: "H_S07_04", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "훈구와 사림의 갈등",
+          passage: `김종직이 쓴 「조의제문(弔義帝文)」은 초나라 의제를 죽인 항우를 비판한 글이다. 훈구 세력은 이 글을 어떻게 해석하여 연산군을 자극하였는가?`,
+          text: "훈구 세력이 주장한 내용으로 알맞은 것은?",
+          choices: [
+            "세조의 단종 왕위 찬탈을 은밀히 비판한 역적의 글이다.",
+            "연산군의 친어머니인 폐비 윤씨를 모욕한 글이다.",
+            "도교 행사를 주관하는 소격서를 즉시 폐지하자는 상소이다.",
+            "명나라 황제에게 바칠 공물을 횡령하려는 음모이다.",
+            "과거 시험 문제를 사전에 유출한 부정행위 기록이다."
+          ],
+          answer: 0,
+          explanation: "훈구 세력은 김종직이 조카 단종을 몰아내고 즉위한 세조를 항우에 빗대어 비판했다고 모함하였습니다."
+        }
+      ],
+
+      // [슬롯 08] 조광조의 개혁 정치와 기묘사화 (현량과, 소격서 폐지, 위훈삭제) (난이도: 중)
+      [
+        {
+          id: "H_S08_01", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "조광조의 개혁과 기묘사화",
+          passage: `역사 학습지 8쪽 <조광조의 개혁 정치와 기묘사화(1519)>:\n- 중종반정 후 훈구를 견제하려는 중종의 신임을 받아 등용됨.\n- 도교 행사를 주관하던 [소격서] 폐지\n- 학문과 덕행이 뛰어난 인재를 시험 없이 추천으로 뽑는 [현량과] 실시\n- 중종반정 때 부당하게 공신이 된 훈구 세력의 공훈을 깎는 [위훈삭제] 주장\n$\rightarrow$ 급진적 개혁에 위협을 느낀 훈구와 중종의 결탁으로 조광조 등 사림 숙청 (기묘사화)`,
+          text: "조광조가 추진한 개혁 정책으로 옳지 않은 것은?",
+          choices: [
+            "세조의 왕권을 강화하기 위해 집현전을 폐지하고 경연을 중단하였다.",
+            "성리학적 유교 이념에 어긋나는 도교 관청인 소격서를 폐지하였다.",
+            "사림 세력을 대거 정계에 진출시키기 위해 천거제인 현량과를 실시하였다.",
+            "중종반정 공신 중 부당하게 책봉된 자들의 자격을 박탈하는 위훈삭제를 추진하였다.",
+            "향촌에 성리학적 자치 규약인 향약을 널리 보급하고자 하였다."
+          ],
+          answer: 0,
+          explanation: "집현전을 폐지하고 경연을 중단한 왕은 세조(수양대군)입니다. 조광조는 도학 정치(성리학)를 바탕으로 급진적 개혁을 추진하였습니다."
+        },
+        {
+          id: "H_S08_02", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "조광조의 개혁과 기묘사화",
+          passage: `조광조의 개혁 중 훈구 세력의 가장 격렬한 반발을 불러일으켰으며, 결국 기묘사화(1519)가 일어나는 결정적인 계기가 된 개혁안은?`,
+          text: "위 정책의 명칭으로 옳은 것은?",
+          choices: ["위훈삭제 (공훈 박탈)", "소격서 폐지", "호패법 부활", "영정법 시행", "노비안검법"],
+          answer: 0,
+          explanation: "중종반정 공신의 절반에 달하는 거짓 공신들의 훈작과 토지·노비를 박탈하려 했던 '위훈삭제'가 훈구의 거센 반발을 샀습니다."
+        },
+        {
+          id: "H_S08_03", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "조광조의 개혁과 기묘사화",
+          passage: `나뭇잎에 꿀로 '주초위왕(走肖爲王: 조씨가 왕이 된다)'이라는 글자를 써 벌레가 갉아먹게 한 뒤 왕에게 바쳐 조광조를 역모로 몰아 제거한 사건은?`,
+          text: "위 설화와 관련된 사화는?",
+          choices: ["기묘사화 (1519)", "무오사화 (1498)", "갑자사화 (1504)", "을사사화 (1545)", "경신환국 (1680)"],
+          answer: 0,
+          explanation: "기묘사화 당시 훈구 세력은 '주초위왕(走+肖=趙, 조광조가 왕이 되려 한다)' 모략을 꾸며 중종의 불안감을 자극했습니다."
+        },
+        {
+          id: "H_S08_04", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "조광조의 개혁과 기묘사화",
+          passage: `조선 시대 사림이 큰 피해를 입은 4대 사화의 발생 순서를 바르게 나열한 것은?`,
+          text: "4대 사화의 연대기 순서가 옳은 것은?",
+          choices: [
+            "무오사화 $\rightarrow$ 갑자사화 $\rightarrow$ 기묘사화 $\rightarrow$ 을사사화",
+            "갑자사화 $\rightarrow$ 무오사화 $\rightarrow$ 을사사화 $\rightarrow$ 기묘사화",
+            "기묘사화 $\rightarrow$ 무오사화 $\rightarrow$ 갑자사화 $\rightarrow$ 을사사화",
+            "무오사화 $\rightarrow$ 기묘사화 $\rightarrow$ 갑자사화 $\rightarrow$ 을사사화",
+            "을사사화 $\rightarrow$ 갑자사화 $\rightarrow$ 무오사화 $\rightarrow$ 기묘사화"
+          ],
+          answer: 0,
+          explanation: "학습지 8쪽 암기 공식: '무오(1498) $\rightarrow$ 갑자(1504) $\rightarrow$ 기묘(1519) $\rightarrow$ 을사(1545)' 순서입니다."
+        }
+      ],
+
+      // [슬롯 09] [고난도 상 ②] 서원과 향약의 향촌 장악 메커니즘과 사림의 집권
+      [
+        {
+          id: "H_S09_01", difficulty: "상", unit: "사림 성장과 사화·붕당", subTopic: "서원과 향약",
+          passage: `다음 두 제도 (가), (나)에 대한 설명이다.\n(가): 중종 때 주세붕이 안향을 기리기 위해 백운동 서원을 세운 것이 시초이며, 명종 때 이황의 건의로 국왕으로부터 친필 현판과 함께 토지·노비·서적을 하사받고 면세·면역 혜택을 누리는 최초의 사액 서원(소수 서원)이 되었다.\n(나): 향촌의 전통적 공동체 미풍양속에 성리학적 유교 윤리를 결합한 향촌 자치 규약으로, 이황(예안향약)과 이이(해주향약) 등이 우리 실정에 맞게 제정하여 보급하였다.`,
+          text: "(가)와 (나)가 조선 사회에 미친 영향으로 옳은 것만을 <보기>에서 있는 대로 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄷ",
+            "ㄱ, ㄹ",
+            "ㄴ, ㄷ, ㄹ",
+            "ㄱ, ㄷ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄹ은 오답입니다. 서원과 향약은 훈구가 아니라 '사림' 세력의 향촌 권력 기반이었습니다. (ㄱ, ㄴ, ㄷ 정답)"
+        },
+        {
+          id: "H_S09_02", difficulty: "상", unit: "사림 성장과 사화·붕당", subTopic: "서원과 향약",
+          passage: `네 차례의 사화(무오·갑자·기묘·을사)로 중앙 정계에서 수많은 사림이 처형되고 유배되었음에도 불구하고, 16세기 후반 선조 때 사림이 훈구를 누르고 정권을 장악할 수 있었던 결정적 원동력은 무엇인가?`,
+          text: "사림 세력의 재생산 기반으로 가장 적절한 것은?",
+          choices: [
+            "향촌에 깊이 뿌리내린 '서원'과 '향약'을 통해 지방 사림의 결속과 후진 양성을 지속했기 때문이다.",
+            "청나라로부터 신식 무기와 군사 훈련을 지원받았기 때문이다.",
+            "명나라 황제로부터 조선 국왕보다 높은 관직을 제수받았기 때문이다.",
+            "상인들과 손잡고 장시와 포구 무역을 독점하여 막대한 군자금을 모았기 때문이다.",
+            "과전법을 폐지하고 모든 토지를 사림의 사유지로 강제 전환했기 때문이다."
+          ],
+          answer: 0,
+          explanation: "사림은 향촌 사회에서 유학교육과 제사를 담당하는 '서원'과 농민을 교화하고 결속하는 '향약'을 통해 끊임없이 인재를 길러내어 마침내 선조 때 정권을 장악했습니다."
+        },
+        {
+          id: "H_S09_03", difficulty: "상", unit: "사림 성장과 사화·붕당", subTopic: "서원과 향약",
+          passage: `국가로부터 현판을 하사받아 공인받고, 부속 토지와 노비, 서적을 지급받으며 조세와 부역을 면제받는 서원을 무엇이라 부르는가?`,
+          text: "위 서원의 유형은?",
+          choices: ["사액 서원", "향교", "서당", "성균관", "4부 학당"],
+          answer: 0,
+          explanation: "왕이 이름을 지어 편액(현판)을 내리고 각종 특권을 부여한 서원을 '사액 서원'이라고 합니다."
+        },
+        {
+          id: "H_S09_04", difficulty: "상", unit: "사림 성장과 사화·붕당", subTopic: "서원과 향약",
+          passage: `이황의 예안향약, 이이의 해주향약 등 사림이 보급한 향약의 4대 덕목 중 '좋은 일은 서로 권하고, 잘못은 서로 바로잡아 준다'는 취지에 해당하는 전통 덕목은?`,
+          text: "향약의 핵심 성격으로 알맞은 것은?",
+          choices: [
+            "성리학적 도덕 규범을 바탕으로 향촌 농민들을 사림의 지배 질서 아래 교화하고 규율하는 자치 규약",
+            "국가가 파견한 수령이 세금을 가혹하게 거두기 위해 만든 강제 수탈 법령",
+            "불교 사찰의 승려들이 승과 시험을 치르기 위해 만든 종교 계율",
+            "노비들이 주인에게 대항하기 위해 비밀리에 조직한 노동조합 규약",
+            "상설 시장의 상인들이 가격 담합을 위해 체결한 상인 조합 규정"
+          ],
+          answer: 0,
+          explanation: "향약은 유교 윤리를 향촌 생활에 정착시키고 농민을 성리학적 질서로 규율하며 사림의 향촌 지배력을 높이는 역할을 하였습니다."
+        }
+      ],
+
+      // [슬롯 10] 붕당의 형성 (이조 전랑, 동인 vs 서인, 학맥) (난이도: 중)
+      [
+        {
+          id: "H_S10_01", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "붕당의 형성",
+          passage: `역사 학습지 10쪽 <붕당의 형성 과정>:\n- 선조 때 사림이 정권을 장악한 후, 훈구 척결 문제와 [이조 전랑] 자리를 둘러싸고 사림이 분열됨.\n- [동인]: 김효원을 지지, 영남 지역의 이황·조식 학문 계승 $\rightarrow$ 이후 남인(이황)과 북인(조식)으로 분화\n- [서인]: 심의겸을 지지, 경기·충청 지역의 이이·성혼 학문 계승\n- 초기 붕당의 성격: 상대 붕당의 학문과 입장을 존중하며 상호 비판과 견제의 공존 원칙 유지`,
+          text: "붕당 형성의 계기가 된 '이조 전랑' 직책의 특징으로 가장 적절한 것은?",
+          choices: [
+            "품계(정5·6품)는 낮았으나 3사의 관원을 추천하고 자신의 후임자를 스스로 지명할 수 있는 막강한 인사권을 가졌다.",
+            "의정부 영의정을 직접 파면하고 국왕의 군 통수권을 대행하는 최고위직이었다.",
+            "전국 8도의 조세를 거두어들이는 호조의 우두머리 판서 자리였다.",
+            "왕실의 외척들만이 독점할 수 있었던 비선 실세 관직이었다.",
+            "오직 무과에 급제한 장수들만 임명될 수 있었던 군영 대장이었다."
+          ],
+          answer: 0,
+          explanation: "이조 전랑은 중하급 관직이었지만, 언론을 담당하는 3사 관원의 추천권과 후임 전랑 지명권(자대권)을 가져 권력의 향방을 가르는 핵심 요직이었습니다."
+        },
+        {
+          id: "H_S10_02", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "붕당의 형성",
+          passage: `동인과 서인의 인물 및 학문적 배경을 바르게 짝지은 것은?`,
+          text: "각 붕당에 대한 설명으로 옳은 것은?",
+          choices: [
+            "동인은 이황과 조식의 학통을 계승하였고, 서인은 이이와 성혼의 학통을 계승하였다.",
+            "동인은 신숙주와 한명회의 훈구 학풍을 계승하였다.",
+            "서인은 남인과 북인으로 세부 분열되었다.",
+            "동인은 심의겸을, 서인은 김효원을 중심으로 결집하였다.",
+            "서인은 영남 학파가 중심이었고 동인은 기호 학파가 중심이었다."
+          ],
+          answer: 0,
+          explanation: "동인은 김효원 지지(영남 학파, 이황·조식), 서인은 심의겸 지지(기호 학파, 이이·성혼)로 결집하였습니다."
+        },
+        {
+          id: "H_S10_03", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "붕당의 형성",
+          passage: `초기 붕당 정치(선조~현종 초)가 지녔던 긍정적인 정치적 특징은 무엇인가?`,
+          text: "초기 붕당 정치의 운영 원리로 알맞은 것은?",
+          choices: [
+            "상대 붕당의 존재를 인정하고 상호 비판과 견제를 통해 정책의 완성도를 높이는 공존의 정치였다.",
+            "선거에서 승리한 한 당이 상대 당 관원들을 모조리 사형시키는 일당전제 정치였다.",
+            "국왕이 절대 권력을 쥐고 신하들의 토론과 붕당 활동을 법으로 엄벌하였다.",
+            "군대를 장악한 무관들이 문관들을 배제하고 권력을 전횡하였다.",
+            "신분제를 철폐하여 노비와 평민에게도 정당 가입권을 허용하였다."
+          ],
+          answer: 0,
+          explanation: "초기 붕당 정치는 학문적 정통성을 바탕으로 상호 비판과 견제, 공존을 추구하는 유교적 여론 정치였습니다."
+        },
+        {
+          id: "H_S10_04", difficulty: "중", unit: "사림 성장과 사화·붕당", subTopic: "붕당의 형성",
+          passage: `동인은 정철의 처벌 문제를 둘러싸고 온건론을 주장한 ( ㉠ )과 강경론을 주장한 ( ㉡ )으로 다시 분열되었다.`,
+          text: "㉠과 ㉡에 들어갈 붕당의 명칭은?",
+          choices: ["㉠ 남인 - ㉡ 북인", "㉠ 노론 - ㉡ 소론", "㉠ 서인 - ㉡ 훈구", "㉠ 탕평파 - ㉡ 척화파", "㉠ 개화파 - ㉡ 위정척사파"],
+          answer: 0,
+          explanation: "동인은 이황 학맥의 온건파 '남인'과 조식 학맥의 강경파 '북인'으로 분화되었습니다."
+        }
+      ],
+
+      // [슬롯 11] 조선 전기 과학 기술과 민족 문화 (칠정산, 앙부일구, 자격루, 예술) (난이도: 하)
+      [
+        {
+          id: "H_S11_03", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "조선 전기 과학과 문화",
+          svg: `<svg viewBox="0 0 320 130" class="max-w-[300px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="130" rx="8" fill="#fdfbf7" stroke="#d6d3d1" stroke-width="1.5"/>
+            <!-- 산수화 풍경 모사 -->
+            <path d="M10 110 Q 50 30, 90 110 Q 130 50, 160 110 Q 210 20, 260 110 Q 290 60, 310 110" fill="#e7e5e4" stroke="#78716c" stroke-width="1.5"/>
+            <!-- 복숭아 도원 구역 -->
+            <circle cx="230" cy="55" r="3" fill="#f43f5e"/>
+            <circle cx="240" cy="50" r="3.5" fill="#f43f5e"/>
+            <circle cx="250" cy="58" r="3" fill="#f43f5e"/>
+            <rect x="15" y="15" width="85" height="22" rx="3" fill="#44403c"/>
+            <text x="57" y="30" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">현실 세계(좌)</text>
+            <rect x="215" y="15" width="90" height="22" rx="3" fill="#be123c"/>
+            <text x="260" y="30" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">이상 세계(도원)</text>
+            <text x="160" y="122" font-size="9" fill="#57534e" text-anchor="middle">[학습지 11쪽: 안견의 몽유도원도(夢遊桃源圖)]</text>
+          </svg>`,
+          passage: `15세기 안평대군이 꾼 꿈의 이야기를 듣고 화가 안견이 3일 만에 그린 그림으로, 현실 세계와 이상 세계인 무릉도원을 대조적으로 조화롭게 표현한 명작이다.`,
+          text: "위 그림에 해당하는 조선 전기 대표 산수화의 제목은?",
+          choices: ["「몽유도원도」", "「고사관수도」", "「인왕제색도」", "「금강전도」", "「미인도」"],
+          answer: 0,
+          explanation: "안견이 안평대군의 꿈을 환상적으로 묘사한 15세기 대표 산수화는 「몽유도원도」입니다."
+        },
+        {
+          id: "H_S11_04", difficulty: "하", unit: "사림 성장과 사화·붕당", subTopic: "조선 전기 과학과 문화",
+          svg: `<svg viewBox="0 0 300 130" class="max-w-[280px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+            <!-- 분청사기 병 -->
+            <path d="M60 30 L80 30 L80 45 Q 100 80, 85 105 L55 105 Q 40 80, 60 45 Z" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
+            <text x="70" y="120" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">15세기 분청사기</text>
+            <!-- 화살표 -->
+            <path d="M125 65 L165 65" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+            <text x="145" y="55" font-size="8" fill="#2563eb" text-anchor="middle">사림 취향</text>
+            <!-- 순백자 병 -->
+            <path d="M210 30 L230 30 L230 45 Q 255 75, 235 105 L205 105 Q 185 75, 210 45 Z" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+            <text x="220" y="120" font-size="9" font-weight="bold" fill="#1e3a8a" text-anchor="middle">16세기 이후 순백자</text>
+          </svg>`,
+          passage: `15세기 고려 청자에서 변화하여 소박하고 자유분방한 멋을 풍기던 도자기에서, 16세기 이후 사림의 검소하고 청렴한 선비 정신을 반영하여 깨끗하고 고상한 멋을 뽐내며 주류로 자리 잡은 도자기는?`,
+          text: "위 그림과 같이 16세기 사림의 취향에 부합하여 널리 유행한 도자기는?",
+          choices: ["백자", "분청사기", "상감청자", "순청자", "옹기"],
+          answer: 0,
+          explanation: "15세기는 분청사기, 16세기 이후에는 사림의 성리학적 취향에 맞는 순백의 '백자'가 유행하였습니다."
+        }
+      ],
+
+      // [슬롯 12] 대외 관계(사대교린, 4군 6진, 쓰시마 토벌)와 임진왜란 (난이도: 중)
+      [
+        {
+          id: "H_S12_01", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "대외 관계와 임진왜란",
+          passage: `역사 학습지 13쪽 <조선의 대외 관계와 임진왜란(1592)>:\n- 대외 원칙: 명나라에는 실리적 공무역을 겸한 [사대], 여진과 일본에는 회유와 무력을 병용한 [교린]\n- 여진: 세종 때 최윤덕(4군), 김종서(6진) 개척으로 오늘날 압록강·두만강 국경선 확정\n- 일본: 세종 때 이종무의 쓰시마섬 토벌(강경책), 3포 개항 및 계해약조 체결(회유책)\n- 임진왜란(1592): 도요토미 히데요시의 정명가도 요구 침략 $\rightarrow$ 이순신의 제해권 장악과 한산도 대첩, 의병의 활약, 진주대첩(김시민), 행주대첩(권율) $\rightarrow$ 명량해전(1597), 노량해전(1598) 승리로 종결`,
+          text: "임진왜란과 조선 전기의 대외 관계에 대한 설명으로 옳은 것은?",
+          choices: [
+            "세종 때 4군 6진을 개척하여 오늘날의 압록강과 두만강을 잇는 국경선을 확립하였다.",
+            "임진왜란을 일으킨 일본의 지배자는 도쿠가와 이에야스였다.",
+            "명나라는 조선을 정복하기 위해 일본군과 연합군을 편성하였다.",
+            "임진왜란은 이순신 장군이 옥포해전에서 전사하면서 최종 마무리되었다.",
+            "조선은 명나라에 대해 군사적으로 멸망시키겠다는 교린 정책을 취했다."
+          ],
+          answer: 0,
+          explanation: "세종 때 최윤덕(4군)과 김종서(6진)를 파견하여 여진족을 몰아내고 압록강~두만강 국경선을 완성하였습니다. 임진왜란 침략자는 도쿠가와가 아닌 '도요토미 히데요시'이며, 이순신은 마지막 노량해전에서 전사했습니다."
+        },
+        {
+          id: "H_S12_02", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "대외 관계와 임진왜란",
+          passage: `임진왜란 당시 관군이 무너지자 전직 관리, 양반, 유생, 승려, 농민들이 자발적으로 무기를 들고 일어나 익숙한 지리를 활용한 기습 유격전으로 일본군에 큰 타격을 주었던 군대는?`,
+          text: "곽재우, 조헌, 고경명, 유정(사명대사) 등이 활약한 이 조직의 명칭은?",
+          choices: ["의병", "속오군", "별무반", "삼별초", "5군영"],
+          answer: 0,
+          explanation: "향토 지리에 밝은 지식인과 농민, 승려들이 자발적으로 결성한 군대는 '의병'입니다."
+        },
+        {
+          id: "H_S12_03", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "대외 관계와 임진왜란",
+          passage: `정유재란(1597) 때 칠천량 해전의 패배로 13척의 배만 남은 절망적 상황에서, 이순신 장군이 울돌목의 험한 조류를 이용하여 133척의 왜선을 격파한 기적 같은 해전은?`,
+          text: "위 해전의 명칭은?",
+          choices: ["명량 해전", "한산도 대첩", "노량 해전", "옥포 해전", "사천 해전"],
+          answer: 0,
+          explanation: "13척의 배로 왜군 대함대를 격파한 세계 해전사의 기적은 '명량 해전'입니다."
+        },
+        {
+          id: "H_S12_04", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "대외 관계와 임진왜란",
+          passage: `7년간의 임진왜란(1592~1598)이 동아시아 삼국에 미친 영향으로 옳지 않은 것은?`,
+          text: "임진왜란의 결과에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "조선의 농촌 경제가 크게 번영하여 전국 농민들의 토지 소유가 비약적으로 증가하였다.",
+            "명나라는 조선 파병으로 국력이 크게 소모되어 쇠퇴의 길을 걸었다.",
+            "만주에서 여진족이 급속히 성장하여 후금을 건국하는 계기가 되었다.",
+            "일본은 도쿠가와 이에야스가 에도 막부를 수립하여 정권 교체가 이루어졌다.",
+            "일본은 조선에서 약탈한 활자와 도자기 기술자, 강항 등 성리학자들을 통해 문화가 크게 발전하였다."
+          ],
+          answer: 0,
+          explanation: "조선은 국토가 황폐화되고 인구와 토지대장이 급감하여 국가 재정이 파탄에 이르렀습니다."
+        }
+      ],
+
+      // [슬롯 13] [고난도 상 ③] 광해군의 중립 외교와 인조반정, 그리고 호란(정묘·병자)의 비극
+      [
+        {
+          id: "H_S13_01", difficulty: "상", unit: "대외 관계와 양난·변동", subTopic: "광해군과 두 차례 호란",
+          passage: `다음은 17세기 전반 조선의 대외 관계 사료이다.\n(가): "명나라가 구원병을 요청하자 강홍립을 도원수로 삼아 파병하면서 '형세를 보아 오직 패하지 않는 방도를 강구하라'고 밀지를 내렸다. 강홍립은 사르후 전투에서 후금에 투항하며 조선이 부득이하게 파병했음을 알렸다."\n(나): "서인 세력은 광해군이 어머니(인목대비)를 폐하고 동생(영창대군)을 죽였으며(폐모살제), 은혜의 나라인 명을 배신하고 오랑캐인 후금과 내통하였다는 명분을 내세워 광해군을 폐위하고 인조를 옹립하였다."\n(다): "청 태종이 군신 관계를 요구하며 12만 대군으로 침략하자 인조는 남한산성으로 피신하여 결사항전하였으나 47일 만에 항복하고 삼전도에서 세 번 절하고 아홉 번 머리를 조아리는 치욕적인 화의를 맺었다."`,
+          text: "(가), (나), (다) 사건에 대한 역사적 평가로 옳은 것만을 <보기>에서 있는 대로 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄷ",
+            "ㄱ, ㄹ",
+            "ㄴ, ㄷ, ㄹ",
+            "ㄱ, ㄷ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄹ은 오답입니다. 병자호란의 결과 후금과 형제 관계를 맺은 것이 아니라, '청 태종'과 군신(임금과 신하) 관계를 맺고 소현세자와 봉림대군이 인질로 끌려갔습니다. (ㄱ, ㄴ, ㄷ 정답)"
+        },
+        {
+          id: "H_S13_02", difficulty: "상", unit: "대외 관계와 양난·변동", subTopic: "광해군과 두 차례 호란",
+          passage: `병자호란(1636) 당시 남한산성에 포위된 조선 조정에서 벌어진 주화론과 척화론의 대립이다.\n- 최명길(주화론): "명분을 지키려다 나라가 망하는 것보다, 오랑캐와 화친하더라도 사직과 백성의 목숨을 보전하는 것이 진정한 의리입니다."\n- 김상헌(척화론): "대의명분을 저버리고 오랑캐에게 무릎을 꿇고 신하가 되느니, 차라리 남한산성에서 장렬하게 죽는 것이 성리학자의 도리입니다."`,
+          text: "위 두 입장의 대립에 대한 설명으로 가장 적절한 것은?",
+          choices: [
+            "실리를 앞세워 국가의 생존을 도모하려는 현실론과, 명에 대한 의리와 성리학적 명분을 지키려는 명분론의 충돌이었다.",
+            "최명길은 청나라 황제가 되기 위해 남한산성을 탈출하고자 하였다.",
+            "김상헌은 왜군과 손잡고 청나라를 협공하자고 주장하였다.",
+            "두 사람 모두 광해군의 복위를 강력하게 요구하였다.",
+            "인조는 결국 김상헌의 주장을 받아들여 끝까지 항전하다 전사하였다."
+          ],
+          answer: 0,
+          explanation: "주화론(최명길)은 현실적 실리와 국가 생존을, 척화론(김상헌, 삼학사)은 명에 대한 유교적 의리와 춘추대의 명분을 강조하였습니다."
+        },
+        {
+          id: "H_S13_03", difficulty: "상", unit: "대외 관계와 양난·변동", subTopic: "광해군과 두 차례 호란",
+          passage: `병자호란 이후 청나라에 인질로 끌려갔다가 귀국하여 즉위한 효종은 서인 정권(송시열 등)과 함께 청에 당한 수치를 씻고 명에 대한 의리를 갚기 위해 '북벌(北伐)'을 추진하였다.`,
+          text: "효종의 북벌 추진이 결국 실패로 끝난 원인으로 옳은 것만을 학습지에서 고른 것은?",
+          choices: [
+            "백성의 생활고 심화, 청나라의 국력 강성, 효종의 급서(갑작스러운 죽음)",
+            "일본이 조선을 재침략하여 왜란이 발발했기 때문에",
+            "동학과 천주교 신자들이 북벌 반대 농민 봉기를 일으켰기 때문에",
+            "대동법이 전국에 전면 실시되어 국방 예산이 전액 삭감되었기 때문에",
+            "청나라가 수도를 베이징에서 남경으로 이전하였기 때문에"
+          ],
+          answer: 0,
+          explanation: "학습지 13쪽: 북벌 중단 원인은 ① 성곽·무기 정비로 인한 백성의 생활고 심화, ② 청나라 국력의 급격한 번성, ③ 효종의 갑작스러운 사망입니다."
+        },
+        {
+          id: "H_S13_04", difficulty: "상", unit: "대외 관계와 양난·변동", subTopic: "광해군과 두 차례 호란",
+          passage: `광해군이 전후 복구를 위해 실시한 민생 정책 중, 가호별로 부과하던 특산물 공납을 토지 면적(결수)에 따라 쌀 등으로 내게 하여 토지 없는 가난한 농민의 부담을 크게 덜어준 획기적인 조세 제도는?`,
+          text: "광해군 때 경기도에서 처음 실시된 이 제도의 명칭은?",
+          choices: ["대동법", "영정법", "균역법", "직전법", "호패법"],
+          answer: 0,
+          explanation: "방납의 폐단을 막고 농민 부담을 줄이기 위해 광해군 때 경기도에서 최초로 시행된 제도는 '대동법'입니다."
+        }
+      ],
+
+      // [슬롯 14] 양난 이후 통치 체제 개편 (비변사 최고 권력화, 훈련도감, 속오군) (난이도: 중)
+      [
+        {
+          id: "H_S14_01", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "비변사와 군사 제도 개편",
+          passage: `역사 학습지 15쪽 <양난 이후 통치 기구와 군사의 변화>:\n- [비변사]: 원래 중종 때 삼포왜란을 계기로 군사 문제를 협의하던 임시 기구였으나, 양난을 거치며 외교·재정·인사 등 국정 전반을 총괄하는 최고 통치 기구로 승격됨 $\rightarrow$ 정작 정규 최고 기구인 [의정부]와 [6조]의 기능은 축소·무력화되고 왕권이 약화됨.\n- [훈련도감]: 임진왜란 중 왜군의 조총 부대에 맞서기 위해 포수·사수·살수의 삼수병으로 편성된 중앙군으로, 일정한 급료를 받는 [직업 군인]으로 구성됨. 이후 5군영 체제로 완성.\n- [속오군]: 양반부터 노비까지 편성된 양천혼성 지방군으로, 평상시에는 생업에 종사하다 유사시 전투에 동원됨.`,
+          text: "양난 이후 비변사의 기능 강화가 초래한 결과로 옳은 것은?",
+          choices: [
+            "의정부와 6조의 기능이 유명무실해지고 왕권이 상대적으로 약화되었다.",
+            "국왕의 전제 왕권이 조선 역사상 가장 강력해졌다.",
+            "사헌부와 사간원의 간쟁 권한이 비변사를 완전히 압도하였다.",
+            "훈구 세력이 부활하여 세조 때의 직전법을 다시 시행하였다.",
+            "지방 수령들의 자치 권한이 대폭 확대되어 관찰사가 폐지되었다."
+          ],
+          answer: 0,
+          explanation: "비변사가 모든 국가 권력을 독점하게 되면서, 의정부와 6조를 중심으로 운영되던 정상적인 국정 운영 체계가 마비되고 왕권이 약화되었습니다."
+        },
+        {
+          id: "H_S14_02", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "비변사와 군사 제도 개편",
+          passage: `임진왜란 중 설치된 훈련도감의 병사들에 대한 설명으로 가장 적절한 것은?`,
+          text: "훈련도감 군사 조직의 특징은?",
+          choices: [
+            "포수, 사수, 살수의 삼수병으로 구성되었으며, 국가로부터 일정한 급료를 받는 상비 직업 군인이었다.",
+            "농번기에만 소집되어 군포만 납부하던 무보수 농민 징집병이었다.",
+            "오직 양반 사대부 자제들로만 편성된 친위 기병 부대였다.",
+            "말을 탄 기병부대로만 이루어진 북벌 전담 특수부대였다.",
+            "여진족 포로들로만 구성된 용병 부대였다."
+          ],
+          answer: 0,
+          explanation: "훈련도감은 조총을 쏘는 포수, 활을 쏘는 사수, 창칼을 쓰는 살수의 삼수병 체제로 월급(급료)을 받는 상비 직업 군인이었습니다."
+        },
+        {
+          id: "H_S14_03", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "비변사와 군사 제도 개편",
+          passage: `양반부터 노비에 이르기까지 모든 신분이 망라되어 편성된 조선 후기의 지방군 조직은?`,
+          text: "평상시에는 생업에 종사하다 유사시 훈련과 전투를 수행한 이 지방군은?",
+          choices: ["속오군", "5위", "훈련도감", "잡색군", "수포군"],
+          answer: 0,
+          explanation: "양반부터 천민(노비)까지 함께 편성된 양천혼성 지방군은 '속오군'입니다."
+        },
+        {
+          id: "H_S14_04", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "비변사와 군사 제도 개편",
+          passage: `비변사가 최고 국정 기구로 자리 잡은 시기와 그 기구가 처음 임시로 설치된 계기를 바르게 짝지은 것은?`,
+          text: "비변사의 역사적 변천으로 옳은 것은?",
+          choices: [
+            "중종 때 삼포왜란 계기로 임시 설치 $\rightarrow$ 임진왜란·병자호란 거치며 최고 국정 기구화",
+            "세종 때 4군 6진 개척 계기로 설치 $\rightarrow$ 갑오개혁 때 폐지",
+            "태종 때 사병 혁파 계기로 설치 $\rightarrow$ 성종 때 경국대전에 수록",
+            "광해군 때 중립 외교를 위해 설치 $\rightarrow$ 인조반정 직후 해체",
+            "영조 때 탕평책의 일환으로 신설 $\rightarrow$ 정조 때 장용영으로 개칭"
+          ],
+          answer: 0,
+          explanation: "비변사는 중종 때 삼포왜란(1510)을 계기로 설치된 임시 군사 회의 기구였으나, 왜란과 호란을 겪으며 국정 최고 기구가 되었습니다."
+        }
+      ],
+
+      // [슬롯 15] 조선 후기 3대 조세 개편 (영정법, 대동법, 균역법) (난이도: 중)
+      [
+        {
+          id: "H_S15_01", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "3대 조세 개편",
+          passage: `역사 학습지 15쪽 <조선 후기 3대 조세 제도의 개편>:\n1) 전세(토지세): [영정법](인조) $\rightarrow$ 풍흉에 관계없이 토지 1결당 쌀 4두로 고정\n2) 공납(특산물): [대동법](광해군~숙종) $\rightarrow$ 집집마다 부과하던 특산물 대신 토지 면적(결수)에 따라 쌀·옷감·동전으로 징수. 국가에 관수품을 조달하는 어용 상인인 [공인] 등장 $\rightarrow$ 상품 화폐 경제 발달 촉진\n3) 군역(군포): [균역법](영조) $\rightarrow$ 농민이 1년에 내던 군포를 2필에서 [1필]로 감면`,
+          text: "대동법의 실시에 따라 나타난 경제적 변화로 가장 적절한 것은?",
+          choices: [
+            "국가가 필요한 물품을 조달하는 공인이 활동하면서 상업과 수공업, 상품 화폐 경제가 크게 발전하였다.",
+            "토지가 없는 가난한 농민들에게 매년 1인당 쌀 12두를 강제로 징수하였다.",
+            "특산물을 대신 납부해 주는 방납의 폐단이 전국적으로 더욱 극심해졌다.",
+            "화폐의 사용이 전면 금지되고 물물교환 경제로 회귀하였다.",
+            "양반 지주들의 토지세 부담이 완전히 면제되었다."
+          ],
+          answer: 0,
+          explanation: "대동법으로 궁궐과 관청에 필요한 물품을 대량 구매하는 어용 상인인 '공인'이 등장하여 장시와 수공업, 상품 화폐 경제 발전을 이끌었습니다."
+        },
+        {
+          id: "H_S15_02", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "3대 조세 개편",
+          passage: `영조 때 농민들의 군포 부담을 줄여주기 위해 1년에 2필씩 내던 군포를 1필로 줄여준 조세 개혁 제도는?`,
+          text: "위 제도의 명칭은?",
+          choices: ["균역법", "대동법", "영정법", "직전법", "호패법"],
+          answer: 0,
+          explanation: "영조가 농민들의 가혹한 군포 부담을 절반(1년에 1필)으로 줄여준 제도는 '균역법'입니다."
+        },
+        {
+          id: "H_S15_03", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "3대 조세 개편",
+          passage: `인조 때 연분9등법의 복잡한 계산을 없애고 풍년과 흉년에 상관없이 무조건 토지 1결당 쌀 4두만 내도록 고정시킨 제도는?`,
+          text: "위 전세 개혁 제도의 명칭은?",
+          choices: ["영정법", "균역법", "과전법", "대동법", "직전법"],
+          answer: 0,
+          explanation: "풍흉에 관계없이 토지 1결당 4~6두(보통 4두)로 세액을 고정시킨 제도는 '영정법'입니다."
+        },
+        {
+          id: "H_S15_04", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "3대 조세 개편",
+          passage: `영조가 균역법을 실시하여 군포를 1필로 줄여주자 국가 재정에 큰 펑크(부족액)가 발생하였다. 조선 정부가 이를 보충하기 위해 마련한 대책으로 옳은 것은?`,
+          text: "균역법의 재정 보충책으로 옳은 것은?",
+          choices: [
+            "지주에게 토지 1결당 쌀 2두의 '결작'을 거두고, 부유한 상민에게 선무군관포를 징수하며, 어장세·염세를 국가 재정으로 흡수하였다.",
+            "모든 농민에게 세금을 10배로 추가 징수하였다.",
+            "청나라에 사신을 보내 매년 막대한 군사 원조금을 빌려왔다.",
+            "노비 제도를 전면 철폐하고 모든 노비에게 군포를 부과하였다.",
+            "과거 시험 응시료를 신설하여 1인당 100냥씩 징수하였다."
+          ],
+          answer: 0,
+          explanation: "군포 감소로 인한 재정 결손을 메우기 위해 지주에게 결작(결당 쌀 2두), 부유층에게 선무군관포(1필), 어장세·염세·선박세를 징수하였습니다."
+        }
+      ],
+
+      // [슬롯 16] 붕당 정치의 전개와 변질 (예송 논쟁, 환국 정국, 서인의 분열) (난이도: 중)
+      [
+        {
+          id: "H_S16_01", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "예송과 환국",
+          passage: `역사 학습지 16쪽 <예송(현종)과 환국(숙종)>:\n[예송 (현종 때)]\n- 효종과 효종비가 사망했을 때 계모인 자의대비(인조의 계비)가 상복을 몇 년 입어야 하는지를 두고 서인과 남인이 대립함.\n- 1차 기해예송(효종 사망): 서인 승리 (서인 1년 vs 남인 3년)\n- 2차 갑인예송(효종비 사망): 남인 승리 (남인 1년 vs 서인 9개월)\n\n[환국 (숙종 때)]\n- 숙종이 왕권 강화를 위해 집권 붕당을 일시에 급격히 뒤바꿈 (경신·기사·갑술환국)\n- 상대 붕당을 사형(사사)시키고 몰아내는 극단적 보복 정치로 변질 $\rightarrow$ 서인이 [노론]과 [소론]으로 분열됨.`,
+          text: "현종 때 일어난 두 차례 예송(禮訟)에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "두 차례 예송 모두 서인의 주장이 채택되어 남인은 정계에서 완전히 멸문지화를 당했다.",
+            "효종이 장남이 아닌 차남으로서 왕위에 올랐기 때문에 정통성 시비가 바탕에 깔려 있었다.",
+            "서인은 국왕도 사대부와 같은 예법을 따라야 한다고 주장하였다.",
+            "남인은 국왕은 일반 사대부와 구별되는 특별한 존재이므로 3년복을 입어야 한다고 주장하였다.",
+            "예송 시기까지는 상대 붕당을 무자비하게 사형시키지 않고 정권만 평화롭게 교체되는 규칙이 지켜졌다."
+          ],
+          answer: 0,
+          explanation: "1차 예송(기해예송)은 서인(1년)이 승리했으나, 2차 예송(갑인예송)은 남인(1년)이 승리하여 남인으로 평화롭게 정권이 교체되었습니다. 상대 붕당을 무자비하게 숙청·사사한 것은 숙종 때의 '환국'입니다."
+        },
+        {
+          id: "H_S16_02", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "예송과 환국",
+          passage: `숙종 때 국왕이 정국 주도권을 쥐기 위해 집권 붕당을 한순간에 전격 교체한 정치적 사건을 무엇이라고 하는가?`,
+          text: "경신·기사·갑술년 등에 일어난 이 정치 현상의 명칭은?",
+          choices: ["환국 (換局)", "사화 (士禍)", "예송 (禮訟)", "반정 (反正)", "탕평 (蕩平)"],
+          answer: 0,
+          explanation: "정국의 판세를 통째로 뒤바꾼다는 뜻으로, 숙종 때 일어난 정치적 격변을 '환국'이라고 합니다."
+        },
+        {
+          id: "H_S16_03", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "예송과 환국",
+          passage: `숙종 때 환국을 거치며 붕당 정치가 변질된 결과로 가장 적절한 것은?`,
+          text: "환국 이후 나타난 정치적 폐단은?",
+          choices: [
+            "상대 붕당을 완전히 파멸시키고 권력을 독점하려는 일당 전제화와 피비린내 나는 보복 정치가 만연해졌다.",
+            "신하들이 정당을 모두 해산하고 국왕의 명령에 절대 복종하였다.",
+            "남인이 노론과 소론으로 분열되어 영구히 집권하였다.",
+            "모든 붕당이 서로 화합하여 탕평책을 자발적으로 완수하였다.",
+            "서원과 향약이 전국에서 일제히 철폐되었다."
+          ],
+          answer: 0,
+          explanation: "환국을 거치며 상대 붕당을 인정하는 공존의 룰이 깨지고, 정권을 잡은 붕당이 상대 당을 무자비하게 사사(사약)하는 일당전제화가 나타났습니다."
+        },
+        {
+          id: "H_S16_04", difficulty: "중", unit: "대외 관계와 양난·변동", subTopic: "예송과 환국",
+          passage: `경신환국(1680) 이후 서인은 남인에 대한 처벌 수위와 학문적 견해 차이로 인해 강경파인 ( ㉠ )과 온건파인 ( ㉡ )으로 분열되었다.`,
+          text: "㉠과 ㉡에 들어갈 붕당의 명칭은?",
+          choices: ["㉠ 노론 (송시열) - ㉡ 소론 (윤증)", "㉠ 동인 - ㉡ 서인", "㉠ 북인 - ㉡ 남인", "㉠ 훈구 - ㉡ 사림", "㉠ 척화파 - ㉡ 주화파"],
+          answer: 0,
+          explanation: "서인은 남인에 대해 강경한 태도를 취한 노론과 온건한 처벌을 주장한 소론으로 분열되었습니다."
+        }
+      ],
+
+      // [슬롯 17] [고난도 상 ④] 영조와 정조의 탕평책 비교 및 한계 심층 분석
+      [
+        {
+          id: "H_S17_01", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "영조와 정조의 탕평 정치",
+          passage: `다음은 조선 후기 두 국왕 (가)와 (나)의 개혁 정치에 대한 자료이다.\n\n(가): "탕평비(蕩平碑)를 성균관에 세우고, 붕당의 근거지가 된 서원을 수백 개 정리하였으며, 인사권을 쥔 이조 전랑의 후임자 지명권을 폐지하였다. 가혹한 형벌을 금지하고 균역법을 실시하였으며 『속대전』을 편찬하였다."\n\n(나): "노론과 소론뿐 아니라 남인 세력(채제공, 정약용)을 과감히 등용하는 적극적 탕평책을 폈다. 왕실 도서관이자 정책 자문 기구인 규장각을 설치하고, 국왕의 친위 부대인 장용영을 육성하였으며, 개혁의 상징 도시로 수원 화성을 축조하였다. 시전 상인의 특권을 폐지한 신해통공을 단행하였다."`,
+          text: "(가) 왕과 (나) 왕의 정책에 대한 설명으로 옳은 것만을 <보기>에서 있는 대로 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄷ",
+            "ㄱ, ㄹ",
+            "ㄴ, ㄷ, ㄹ",
+            "ㄷ, ㄹ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄹ은 오답입니다. 정조 사후 붕당 간의 세력 균형이 완전히 붕괴되면서 소수 외척 가문이 권력을 독점하는 '세도 정치'로 변질되었습니다. (ㄱ, ㄴ, ㄷ 정답)"
+        },
+        {
+          id: "H_S17_02", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "영조와 정조의 탕평 정치",
+          passage: `정조가 추진한 상업 개혁 정책으로, 시전 상인들이 난전(골목 상인)을 단속할 수 있었던 독점적 권한(금난전권)을 폐지하여 자유로운 상업 활동을 보장한 조치는?`,
+          text: "1791년에 단행된 이 조치의 명칭은?",
+          choices: ["신해통공 (금난전권 폐지)", "대동법 전국 확대", "균역법 실시", "관세자유화 조치", "사상무역 금지령"],
+          answer: 0,
+          explanation: "정조는 1791년 육의전을 제외한 시전 상인의 금난전권을 철폐하는 '신해통공'을 단행하여 도시 상인들의 자유로운 상업을 보장하였습니다."
+        },
+        {
+          id: "H_S17_03", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "영조와 정조의 탕평 정치",
+          passage: `영조와 정조가 탕평책을 추진하였음에도 불구하고, 정조가 사망한 직후 조선 정치가 급격한 파탄(세도 정치)에 빠지게 된 근본적인 한계점은 무엇인가?`,
+          text: "탕평 정치의 구조적 한계로 가장 적절한 것은?",
+          choices: [
+            "국왕 개인의 강력한 리더십으로 붕당 간의 대립을 일시적으로 눌러놓았을 뿐, 붕당 간의 갈등과 사회적 모순을 제도적으로 근본 해결하지 못했기 때문이다.",
+            "영조와 정조가 과거 시험을 영구 폐지하여 관리 선발이 중단되었기 때문이다.",
+            "서원을 대폭 늘려 사림 세력의 사병화를 부추겼기 때문이다.",
+            "청나라 군대가 한양을 점령하여 국왕을 강제로 폐위시켰기 때문이다.",
+            "모든 조세를 금지하여 국가 재정이 완전히 파산했기 때문이다."
+          ],
+          answer: 0,
+          explanation: "학습지 17쪽: 탕평책은 국왕의 강력한 권위로 붕당 갈등을 '일시적으로 억제'했을 뿐 근본적인 권력 독점 구조를 개혁하지 못해, 정조 사후 세도 정치로 이어졌습니다."
+        },
+        {
+          id: "H_S17_04", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "영조와 정조의 탕평 정치",
+          passage: `정조의 개혁 기구 중 박제가, 이덕무, 유득공 등 능력 있는 서얼(첩의 자손) 출신 학자들을 '검서관'으로 과감하게 등용하여 학문과 개혁 정책을 연구하게 한 기관은?`,
+          text: "위 기구의 명칭은?",
+          choices: ["규장각", "장용영", "홍문관", "집현전", "춘추관"],
+          answer: 0,
+          explanation: "정조는 왕실 도서관인 '규장각'을 개혁 정책의 싱크탱크로 삼고 서얼 출신 인재들을 적극 등용하였습니다."
+        }
+      ],
+
+      // [슬롯 18] 세도 정치의 폐단과 삼정의 문란 (전정, 군정, 환곡) (난이도: 하)
+      [
+        {
+          id: "H_S18_01", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "세도 정치와 삼정의 문란",
+          svg: `<svg viewBox="0 0 320 120" class="max-w-[300px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="120" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+            <rect x="15" y="15" width="85" height="85" rx="6" fill="#ffffff" stroke="#fdba74" stroke-width="1"/>
+            <text x="57" y="35" font-size="11" font-weight="bold" fill="#c2410c" text-anchor="middle">전정(田政)</text>
+            <text x="57" y="60" font-size="8.5" fill="#475569" text-anchor="middle">• 황무지에 과세</text>
+            <text x="57" y="78" font-size="8.5" fill="#475569" text-anchor="middle">• 덧붙여 과다징수</text>
+
+            <rect x="117" y="15" width="85" height="85" rx="6" fill="#ffffff" stroke="#fdba74" stroke-width="1"/>
+            <text x="159" y="35" font-size="11" font-weight="bold" fill="#c2410c" text-anchor="middle">군정(軍政)</text>
+            <text x="159" y="60" font-size="8.5" fill="#475569" text-anchor="middle">• 어린아이 (황구첨정)</text>
+            <text x="159" y="78" font-size="8.5" fill="#475569" text-anchor="middle">• 사망자 (백골징포)</text>
+
+            <rect x="220" y="15" width="85" height="85" rx="6" fill="#ffffff" stroke="#fdba74" stroke-width="1"/>
+            <text x="262" y="35" font-size="11" font-weight="bold" fill="#c2410c" text-anchor="middle">환곡(還穀)</text>
+            <text x="262" y="60" font-size="8.5" fill="#475569" text-anchor="middle">• 강제 대여</text>
+            <text x="262" y="78" font-size="8.5" fill="#475569" text-anchor="middle">• 모래 섞인 고리대</text>
+            <text x="160" y="112" font-size="8" fill="#9a3412" text-anchor="middle">[학습지 19쪽: 세도 정치기 농민을 도탄에 빠뜨린 삼정의 문란]</text>
+          </svg>`,
+          passage: `역사 학습지 17, 19쪽 <세도 정치와 삼정의 문란>:\n- 순조·헌종·철종 3대 60여 년간 왕실 외척 가문(안동 김씨, 풍양 조씨 등)이 비변사와 관직을 독점함.\n- 매관매직(관직 매매) 성행 $\rightarrow$ 뇌물을 주고 수령이 된 자들이 백성을 가혹하게 수탈함.\n- [삼정의 문란]:\n① 전정: 황무지나 문서에 없는 땅에도 갖은 명목으로 과다한 세금 부과\n② 군정: 어린아이에게 군포 부과(황구첨정), 죽은 사람에게 군포 부과(백골징포)\n③ 환곡: 본래 빈민 구제책이었으나 강제로 모래 섞인 썩은 쌀을 빌려주고 높은 이자를 뜯는 고리대로 변질 (가장 극심한 폐단)`,
+          text: "위 그림과 자료에 제시된 세도 정치 시기 삼정의 문란 중 '군정의 폐단'에 해당하는 사례로 옳은 것은?",
+          choices: [
+            "돌아가신 할아버지와 갓난아기에게까지 군포를 내라고 독촉하였다.",
+            "황무지나 바위투성이 땅에 강제로 토지세를 부과하였다.",
+            "겨울철에 모래와 쌀겨가 섞인 썩은 쌀을 강제로 빌려주고 가을에 2배의 곡식을 뜯어갔다.",
+            "시전 상인들이 난전 상인의 물건을 압수하고 두들겨 팼다.",
+            "노비들이 호적을 위조하여 양반으로 신분을 상승시켰다."
+          ],
+          answer: 0,
+          explanation: "군정의 폐단은 16세 미만 아이에게 징수하는 황구첨정, 이미 사망한 조상에게 징수하는 백골징포, 도망친 이웃의 군포를 대신 물리는 인징·족징 등이었습니다."
+        },
+        {
+          id: "H_S18_02", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "세도 정치와 삼정의 문란",
+          passage: `세도 정치 시기 농민들에게 가장 큰 고통을 주었던 것으로, 춘궁기에 곡식을 빌려주고 추수기에 갚게 하던 빈민 구제 제도가 관청의 착취와 고리대로 변질된 제도는?`,
+          text: "삼정 중 가장 원성이 자자했던 이 폐단의 명칭은?",
+          choices: ["환곡의 폐단", "전정의 폐단", "군정의 폐단", "방납의 폐단", "결작의 폐단"],
+          answer: 0,
+          explanation: "환곡은 본래 춘대추납의 구제 제도였으나, 세도 정치기에는 관청이 강제로 빌려주고 높은 이자를 뜯는 가장 악질적인 착취 수단으로 전락했습니다."
+        },
+        {
+          id: "H_S18_03", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "세도 정치와 삼정의 문란",
+          passage: `세도 정치 시기 사회 모습에 대한 설명으로 옳지 않은 것은?`,
+          text: "세도 정치기의 설명으로 옳지 않은 것은?",
+          choices: [
+            "국왕에게 권력이 집중되어 왕권이 크게 강화되었다.",
+            "안동 김씨, 풍양 조씨 등 소수의 외척 가문이 권력을 독점하였다.",
+            "돈을 주고 관직을 사고파는 매관매직이 성행하였다.",
+            "과거 시험장에서 뇌물과 부정이 판을 쳐 과거제가 극도로 문란해졌다.",
+            "정부가 암행어사를 파견하였으나 뿌리 깊은 부정부패를 막지 못했다."
+          ],
+          answer: 0,
+          explanation: "세도 정치 시기에는 어린 왕들이 즉위하여 왕권이 바닥으로 추락하고, 권력은 소수 외척 가문이 비변사를 통해 독점하였습니다."
+        },
+        {
+          id: "H_S18_04", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "세도 정치와 삼정의 문란",
+          passage: `순조(1800~1834) 즉위 후 김조순을 비롯한 이 가문이 권력을 장악하며 60여 년 세도 정치의 문을 열었다. 이 가문은?`,
+          text: "순조 때 집권한 대표적인 세도 가문은?",
+          choices: ["안동 김씨", "풍양 조씨", "여흥 민씨", "남양 홍씨", "파평 윤씨"],
+          answer: 0,
+          explanation: "순조의 장인 김조순을 시작으로 권력을 독점한 가문은 안동 김씨 가문입니다."
+        }
+      ],
+
+      // [슬롯 19] 조선 후기 농업과 상공업의 발달 (모내기법, 광작, 장시, 상평통보) (난이도: 중)
+      [
+        {
+          id: "H_S19_01", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "상품 화폐 경제의 발달",
+          passage: `역사 학습지 18쪽 <조선 후기 상품 화폐 경제의 발달>:\n- 농업: [모내기법(이앙법)]이 전국적으로 보급됨 $\rightarrow$ 벼·보리의 이모작 가능, 김매기(잡초 제거) 일손을 획기적으로 절감 $\rightarrow$ 1인당 경작 면적을 대폭 넓히는 [광작] 유행 $\rightarrow$ 일부 농민은 부농으로 성장, 다수 농민은 토지를 잃고 소작농·임노동자로 전락\n- 상업: 대동법과 장시 발달로 대상인 등장 (의주의 만상, 개성의 송상, 동래의 내상, 한강의 경강상인)\n- 화폐: 전국적으로 동전인 [상평통보]가 널리 유통됨`,
+          text: "조선 후기 모내기법(이앙법)의 전국적 확산이 가져온 사회·경제적 변화로 옳지 않은 것은?",
+          choices: [
+            "농업 노동력이 더 많이 필요해져서 한 가구가 농사지을 수 있는 토지 면적이 크게 줄어들었다.",
+            "잡초를 뽑는 일손이 크게 절감되어 한 사람이 넓은 땅을 경작하는 광작이 가능해졌다.",
+            "벼와 보리의 이모작이 가능해져 단위 면적당 농업 수확량이 크게 증가하였다.",
+            "광작으로 인해 일부 농민은 부농이 되었으나, 대다수 농민은 토지를 잃고 빈농이나 머슴으로 몰락하였다.",
+            "쌀뿐만 아니라 인삼, 담배, 면화, 채소 등 시장에 내다 파는 상품 작물 재배가 활발해졌다."
+          ],
+          answer: 0,
+          explanation: "모내기법은 노동력을 획기적으로 줄여주었기 때문에 1인당 경작 면적이 대폭 늘어나는 '광작'을 가능하게 했습니다. 따라서 노동력이 더 필요해 면적이 줄었다는 ①은 정반대의 틀린 설명입니다."
+        },
+        {
+          id: "H_S19_02", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "상품 화폐 경제의 발달",
+          passage: `조선 후기 대외 무역을 주도한 대상인 중, 개성을 근거지로 삼아 전국에 '송방'이라는 지점을 두고 인삼 재배와 청·일본 사이의 중개 무역으로 막대한 부를 쌓은 상인은?`,
+          text: "위 상인의 명칭은?",
+          choices: ["송상 (개성 상인)", "만상 (의주 상인)", "내상 (동래 상인)", "유상 (평양 상인)", "경강상인 (한강 뱃상인)"],
+          answer: 0,
+          explanation: "개성을 근거지로 전국에 송방을 설치하고 인삼 무역을 주도한 상인은 '송상'입니다."
+        },
+        {
+          id: "H_S19_03", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "상품 화폐 경제의 발달",
+          passage: `조선 후기 숙종 때 전국적으로 널리 유통되어 세금 납부와 물건 매매, 임금 지급에 사용된 대표적인 동전(화폐)은?`,
+          text: "위 화폐의 명칭은?",
+          choices: ["상평통보", "건원중보", "해동통보", "활구 (은병)", "당백전"],
+          answer: 0,
+          explanation: "조선 후기 전국적으로 유통된 대표 화폐는 숙종 때 발행된 '상평통보'입니다."
+        },
+        {
+          id: "H_S19_04", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "상품 화폐 경제의 발달",
+          passage: `조선 후기 광업에서 상인 물주로부터 자금을 투자받아 전문적으로 광산을 경영하고 채굴 노동자를 고용하여 분업을 지휘하던 전문 경영인을 무엇이라 불렀는가?`,
+          text: "위 전문 경영인의 명칭은?",
+          choices: ["덕대", "공인", "보부상", "도사", "아전"],
+          answer: 0,
+          explanation: "자본을 가진 물주에게 자금을 대여받아 광산 운영을 도맡던 전문 경영인은 '덕대'입니다."
+        }
+      ],
+
+      // [슬롯 20] 신분제의 동요와 서얼·중인·노비의 신분 상승 (난이도: 하)
+      [
+        {
+          id: "H_S20_01", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "신분제의 동요",
+          svg: `<svg viewBox="0 0 280 130" class="max-w-[260px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="280" height="130" rx="8" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+            <!-- 공명첩 고문서 형태 -->
+            <rect x="25" y="20" width="230" height="90" fill="#fef9c3" stroke="#a16207" stroke-width="1"/>
+            <text x="140" y="45" font-size="12" font-weight="bold" fill="#713f12" text-anchor="middle">嘉善大夫 同知中樞府事</text>
+            <!-- 성명 빈칸 박스 -->
+            <rect x="70" y="55" width="80" height="24" rx="4" fill="#ffffff" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,3"/>
+            <text x="110" y="71" font-size="9" font-weight="bold" fill="#dc2626" text-anchor="middle">[성명 공란]</text>
+            <text x="180" y="71" font-size="11" fill="#713f12">者</text>
+            <text x="140" y="98" font-size="8" fill="#854d0e" text-anchor="middle">[학습지 18쪽: 이름을 쓰는 자리가 비어 있는 관직 임명장]</text>
+          </svg>`,
+          passage: `역사 학습지 18쪽 <조선 후기 신분제의 변동>:\n- 법제적 양천제에서 '양반·중인·상민·천민' 4신분 체제로 분화되어 운영됨.\n- 양반의 수 급증: 국가 재정 보충을 위해 정부가 발행한 [공명첩]을 사거나, [납속책](곡식 바치기), 족보 위조 등을 통해 상민들이 양반으로 신분 상승.\n- 양반의 분화: 권력을 잡은 소수 권반과 경제적으로 몰락하여 농민과 다를 바 없어진 [잔반]으로 분열.`,
+          text: "위 그림처럼 조선 후기 정부가 재정을 보충하기 위해 돈이나 곡식을 받고 팔았던, '이름을 적는 란이 비어 있는 관직 임명장'은?",
+          choices: ["공명첩", "호패", "마패", "교지", "녹패"],
+          answer: 0,
+          explanation: "이름 쓰는 자리가 비어 있는 관직 임명장으로, 상민들이 합법적으로 양반 신분을 얻는 데 쓰인 문서는 '공명첩'입니다."
+        },
+        {
+          id: "H_S20_02", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "신분제의 동요",
+          passage: `조선 후기 신분 구조의 변화 추이를 가장 정확하게 설명한 것은?`,
+          text: "신분제 변동의 결과로 옳은 것은?",
+          choices: [
+            "양반의 수는 크게 늘어나고, 세금과 군역을 지는 상민과 천민(노비)의 수는 크게 줄어들었다.",
+            "노비의 수가 인구의 90% 이상을 차지할 정도로 폭증하였다.",
+            "양반 계층이 엄격히 통제되어 새로운 양반의 진입이 완전히 차단되었다.",
+            "중인 계층이 몰락하여 전원 천민으로 격하되었다.",
+            "양천제가 더욱 강화되어 양반도 군포를 의무적으로 납부하게 되었다."
+          ],
+          answer: 0,
+          explanation: "공명첩, 족보 위조, 군공 등으로 양반의 수는 급증한 반면, 상민과 노비의 수는 크게 감소하였습니다."
+        },
+        {
+          id: "H_S20_03", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "신분제의 동요",
+          passage: `1801년 순조 때 국가가 재정을 확충하고 신분 갈등을 완화하기 위해 내수사와 각 관청에 소속된 이들을 해방한 조치는?`,
+          text: "이때 해방된 계층은?",
+          choices: ["공노비 (관청 노비 6만 6천 명)", "사노비 (개인 노비)", "백정", "광대", "역관"],
+          answer: 0,
+          explanation: "1801년 순조는 관청에 소속된 '공노비' 6만 6천여 명을 해방하여 양인으로 삼았습니다."
+        },
+        {
+          id: "H_S20_04", difficulty: "하", unit: "사회 변동과 농민봉기·실학", subTopic: "신분제의 동요",
+          passage: `조선 후기 양반 중 권력 다툼에서 밀려나 향촌에서 겨우 체면만 유지하거나, 가난하여 일반 농민과 다를 바 없는 처지로 전락한 몰락 양반을 무엇이라 불렀는가?`,
+          text: "위 계층을 부르는 명칭은?",
+          choices: ["잔반", "권반", "향리", "토호", "서얼"],
+          answer: 0,
+          explanation: "붕당 정치의 변질과 세도 정치로 권력을 잃고 경제적으로 영락한 몰락 양반을 '잔반'이라고 불렀습니다."
+        }
+      ],
+
+      // [슬롯 21] [고난도 상 ⑤] 19세기 2대 농민 봉기 (홍경래의 난 vs 임술 농민 봉기) 사료 심층 비교
+      [
+        {
+          id: "H_S21_01", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "19세기 농민 봉기",
+          svg: `<svg viewBox="0 0 320 140" class="max-w-[300px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="140" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+            <!-- 북부: 홍경래의 난 (1811) -->
+            <rect x="20" y="15" width="135" height="110" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1"/>
+            <text x="87" y="35" font-size="11" font-weight="bold" fill="#b91c1c" text-anchor="middle">홍경래의 난 (1811)</text>
+            <text x="87" y="55" font-size="8.5" fill="#475569" text-anchor="middle">• 평안도(서북) 차별 반발</text>
+            <text x="87" y="73" font-size="8.5" fill="#475569" text-anchor="middle">• 청천강 이북 지역 장악</text>
+            <text x="87" y="91" font-size="8.5" font-weight="bold" fill="#dc2626" text-anchor="middle">• 정주성에서 최후 항전</text>
+            <text x="87" y="112" font-size="8" fill="#64748b" text-anchor="middle">몰락양반·광산노동자 결합</text>
+
+            <!-- 남부: 임술 농민 봉기 (1862) -->
+            <rect x="165" y="15" width="135" height="110" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+            <text x="232" y="35" font-size="11" font-weight="bold" fill="#1d4ed8" text-anchor="middle">임술 농민 봉기 (1862)</text>
+            <text x="232" y="55" font-size="8.5" fill="#475569" text-anchor="middle">• 진주 민란에서 전국 확산</text>
+            <text x="232" y="73" font-size="8.5" fill="#475569" text-anchor="middle">• 우병사 백낙신 수탈 계기</text>
+            <text x="232" y="91" font-size="8.5" font-weight="bold" fill="#2563eb" text-anchor="middle">• 정부: 삼정이정청 설치</text>
+            <text x="232" y="112" font-size="8" fill="#64748b" text-anchor="middle">유계춘 중심, 머리에 흰 띠</text>
+          </svg>`,
+          passage: `다음 두 사료 (가), (나)를 읽고 물음에 답하시오.\n\n(가): "평서 대원수는 급히 격문을 띄우노니... 조정에서는 관서(평안도) 땅을 더러운 흙처럼 버렸다. 심지어 권세 있는 가문의 노비들조차 관서 사람을 보면 '평안도 놈'이라 비하한다. 이제 분연히 일어나 어진 백성을 구원하고자 하노라." (1811)\n\n(나): "진주 백성들이 경상우병사 백낙신의 가혹한 수탈과 조세 횡령에 분노하여 몰락 양반 유계춘을 중심으로 머리에 흰 띠를 두르고 무장 봉기하였다. 봉기는 순식간에 삼남(충청·전라·경상) 지방을 거쳐 함흥과 제주도까지 전국으로 확산되었다." (1862)`,
+          text: "위 비교 도표와 사료에 나타난 (가)와 (나) 농민 봉기에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "(가) 봉기군은 진주성을 점령하고 삼정이정청을 설치하여 농민 요구를 전면 반영하였다.",
+            "(가)는 서북 지방민에 대한 오랜 차별과 세도 정권의 가혹한 수탈에 반발하여 일어났다.",
+            "(가)는 몰락 양반, 신흥 상공업자, 광산 노동자, 품팔이꾼 등이 결합하여 청천강 이북 지역을 장악하였다.",
+            "(나)에 대응하여 조선 정부는 박규수를 안핵사로 파견하고 삼정의 문란을 해결하고자 삼정이정청을 설치하였다.",
+            "(나)는 전국 각지로 농민 봉기가 번져나간 1862년 '임술 농민 봉기'의 출발점인 진주 농민 봉기이다."
+          ],
+          answer: 0,
+          explanation: "삼정이정청 설치는 (가) 홍경래의 난(1811)이 아니라 (나) 임술 농민 봉기(1862) 때 정부가 내놓은 수습책이었으며, 이마저도 근본적인 성과를 거두지 못했습니다."
+        },
+        {
+          id: "H_S21_02", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "19세기 농민 봉기",
+          passage: `1862년 진주 농민 봉기를 수습하기 위해 정부가 파견한 안핵사 박규수의 건의로 설치된 기구는?`,
+          text: "삼정의 문란을 바로잡기 위해 임시로 설치했던 이 관청은?",
+          choices: ["삼정이정청", "교정도감", "비변사", "혜민국", "균역청"],
+          answer: 0,
+          explanation: "철종 때 임술 농민 봉기를 수습하기 위해 삼정의 폐단을 개혁하고자 설치한 관청은 '삼정이정청'입니다."
+        },
+        {
+          id: "H_S21_03", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "19세기 농민 봉기",
+          passage: `19세기 전개된 예언 사상과 종교 운동에 대한 설명이다.`,
+          text: "이에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "최제우는 성리학만을 절대적으로 신봉하여 불교와 서학을 배척하는 순수 유교 운동으로 동학을 창시하였다.",
+            "민간에서는 정씨 성을 가진 진인이 나타나 왕조를 세운다는 예언서인 『정감록』이 널리 유행하였다.",
+            "천주교는 서학(학문)으로 수용되었다가 18세기 후반 신앙으로 확산되며 평등과 내세 사상으로 민중의 호응을 얻었다.",
+            "동학은 1860년 '인내천(사람이 곧 하늘)' 사상을 내세워 양반 중심의 신분 차별을 거부하였다.",
+            "2대 교주 최시형은 『동경대전』과 『용담유사』를 펴내어 동학 교단과 교리를 체계화하였다."
+          ],
+          answer: 0,
+          explanation: "동학(1860)은 성리학만을 신봉한 것이 아니라, 유교·불교·도교 및 민간 신앙을 융합하고 서학(천주교)에 맞서 민족 종교로 창시되었습니다."
+        },
+        {
+          id: "H_S21_04", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "19세기 농민 봉기",
+          passage: `1811년 일어난 홍경래의 난이 정부군에 의해 최후로 진압된 격전지의 명칭은?`,
+          text: "위 격전지 성의 이름은?",
+          choices: ["정주성", "진주성", "남한산성", "북한산성", "행주산성"],
+          answer: 0,
+          explanation: "홍경래의 난 봉기군은 청천강 이북을 장악하고 4개월간 '정주성'에서 농성하다가 화약 폭파로 진압되었습니다."
+        }
+      ],
+
+      // [슬롯 22] 조선 후기 대외 사절단 (통신사 vs 연행사) (난이도: 중)
+      [
+        {
+          id: "H_S22_01", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "대외 사절단",
+          passage: `역사 학습지 21쪽 <조선 후기 대외 사절단>:\n- [통신사 (대일본 외교)]:\n  * 목적지: 일본 에도(도쿄)\n  * 파견 계기: 일본 막부의 실권자인 [쇼군(장군)]이 바뀔 때마다 일본의 간청으로 파견\n  * 역할: 국서 전달, 조선의 선진 학문(성리학)·의학·예술을 일본에 전파하는 문화 사절단 역할\n- [연행사 (대청 외교)]:\n  * 목적지: 청나라 수도 [연경(베이징)]\n  * 역할: 정기 공식 외교 수행, 서양 선교사와 접촉하여 서양 과학 문물과 서적(서학)을 수집해 조선에 소개`,
+          text: "조선 후기 일본에 파견된 '통신사'에 대한 설명으로 옳지 않은 것은?",
+          choices: [
+            "조선 국왕이 바뀔 때마다 조선 정부의 간청으로 일본에 파견되었다.",
+            "일본 쇼군(막부 장군)이 교체될 때 일본 측의 요청에 따라 파견되었다.",
+            "임진왜란 이후 국교를 재개하면서 200여 년간 총 12회 파견되었다.",
+            "조선의 성리학, 도자기 기술, 의학, 회화 등을 일본에 전파하는 역할을 하였다.",
+            "일본 내에서 통신사의 행렬을 구경하려는 군중이 인산인해를 이루었다."
+          ],
+          answer: 0,
+          explanation: "통신사는 조선의 요청이 아니라, 정권의 정통성을 인정받으려는 '일본 막부 쇼군의 간청'에 의해 파견되었습니다."
+        },
+        {
+          id: "H_S22_02", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "대외 사절단",
+          passage: `조선 후기 청나라 수도 연경(베이징)에 파견되어 공식 외교뿐 아니라 서양 문물과 학술 정보를 수집해 온 사절단의 명칭은?`,
+          text: "위 사절단의 명칭은?",
+          choices: ["연행사", "통신사", "보빙사", "수신사", "영선사"],
+          answer: 0,
+          explanation: "청나라 수도 연경을 왕래한 정기 사절단은 '연행사'입니다."
+        },
+        {
+          id: "H_S22_03", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "대외 사절단",
+          passage: `연행사의 수행원으로 청나라를 방문한 뒤, 청의 발달한 문물과 수레·벽돌의 사용, 양반 사회의 무능을 풍자한 명작 『열하일기』를 저술한 인물은?`,
+          text: "위 실학자의 이름은?",
+          choices: ["박지원", "박제가", "정약용", "홍대용", "유형원"],
+          answer: 0,
+          explanation: "정조 때 청나라를 다녀와 『열하일기』를 저술하고 수레와 선박 이용을 역설한 실학자는 '박지원'입니다."
+        },
+        {
+          id: "H_S22_04", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "대외 사절단",
+          passage: `조선 후기 연행사를 통해 중국에서 들어온 서양의 천문학과 역법 중, 김육의 건의로 조선에 도입된 서양식 태양태음력 역법은?`,
+          text: "위 역법의 이름은?",
+          choices: ["시헌력", "칠정산", "수시력", "태양력", "대통력"],
+          answer: 0,
+          explanation: "학습지 21쪽: 김육의 건의로 청나라를 통해 도입된 서양식 선진 역법은 '시헌력'입니다."
+        }
+      ],
+
+      // [슬롯 23] 농업 중심 실학자 (중농학파: 유형원, 이익, 정약용) 토지 개혁론 (난이도: 중)
+      [
+        {
+          id: "H_S23_01", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중농학파 실학",
+          passage: `역사 학습지 21쪽 <농업 중심의 개혁론 (중농학파)>:\n- [유형원 (균전론)]: 신분에 따라 토지를 차등 지급하되 농민에게도 일정한 토지를 보장할 것 주장 (『반계수록』)\n- [이익 (한전론)]: 한 가구의 생계유지에 필요한 최소 토지를 [영업전]으로 지정하여 매매를 영구 금지하고, 나머지 토지만 매매 허용하여 점진적 균등 추구\n- [정약용 (여전론)]: 마을(여) 단위로 토지를 공동 소유하고 공동 경작하여, [일한 날짜(노동량)]에 따라 수확물을 분배할 것 주장 $\rightarrow$ 정전론 제시, 『목민심서』, 『경세유표』 저술`,
+          text: "중농학파 실학자들의 토지 개혁론에 대한 설명으로 옳은 것은?",
+          choices: [
+            "정약용은 여전론을 통해 토지의 공동 소유와 노동량에 따른 분배를 주장하였다.",
+            "이익은 신분에 따라 토지를 차등 지급하는 균전론을 제시하였다.",
+            "유형원은 마을 단위의 공동 경작을 실시하는 여전론을 주장하였다.",
+            "중농학파 실학자들은 농업을 폐지하고 상업과 무역에만 올인할 것을 요구하였다.",
+            "정약용은 사농공상의 신분제를 더욱 강화하여 노비 매매를 장려하였다."
+          ],
+          answer: 0,
+          explanation: "정약용은 마을(여) 단위의 토지 공동 소유와 공동 경작, 일한 날짜에 따른 수확물 분배를 규정한 '여전론'을 역설하였습니다."
+        },
+        {
+          id: "H_S23_02", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중농학파 실학",
+          passage: `이익이 주장한 토지 개혁론으로, 한 가정이 살아가는 데 필요한 최소한의 농지를 '영업전(營業田)'으로 지정하여 아무리 빚을 져도 절대 팔거나 빼앗지 못하게 한 제도는?`,
+          text: "위 토지 개혁론의 명칭은?",
+          choices: ["한전론", "균전론", "여전론", "정전론", "과전법"],
+          answer: 0,
+          explanation: "토지 소유의 하한선을 설정하여 영업전의 매매를 금지한 제도는 이익의 '한전론'입니다."
+        },
+        {
+          id: "H_S23_03", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중농학파 실학",
+          passage: `정약용의 대표 저서 중, 지방관(수령)이 백성을 다스릴 때 지켜야 할 청렴한 자세와 도덕적 지침을 저술한 책은?`,
+          text: "위 명저의 제목은?",
+          choices: ["『목민심서』", "『경세유표』", "『흠흠신서』", "『열하일기』", "『북학의』"],
+          answer: 0,
+          explanation: "지방관의 통치 윤리와 백성 구제를 다룬 정약용의 저서는 『목민심서』입니다."
+        },
+        {
+          id: "H_S23_04", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중농학파 실학",
+          passage: `신분에 따라 관료, 선비, 농민에게 차등을 두어 토지를 분배함으로써 자영농을 육성하자고 주장한 유형원의 토지 개혁 사상은?`,
+          text: "위 개혁론의 명칭은?",
+          choices: ["균전론", "한전론", "여전론", "직전법", "녹읍제"],
+          answer: 0,
+          explanation: "유형원이 『반계수록』에서 주장한 토지 개혁론은 '균전론'입니다."
+        }
+      ],
+
+      // [슬롯 24] 상공업 중심 실학자 (중상학파/북학파: 유수원, 홍대용, 박지원, 박제가) (난이도: 중)
+      [
+        {
+          id: "H_S24_01", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중상학파 실학",
+          passage: `역사 학습지 21쪽 <상공업 중심의 개혁론 (중상학파 / 북학파)>:\n- [유수원]: 『우서』 저술, 사농공상의 직업적 평등과 전문화 주장\n- [홍대용]: 『의산문답』 저술, 기술 혁신과 문벌 제도 폐지 주장, 지전설(지구 자전설) 제시\n- [박지원]: 『열하일기』, 『양반전』 저술, 수레·선박·화폐 유통의 필요성 역설\n- [박제가]: 『북학의』 저술, 청나라와의 통상 확대 주장, "재물은 우물과 같아서 쓰지 않으면 말라버린다"며 [소비]를 통한 생산 증대 주장\n$\rightarrow$ 북학파의 상공업 진흥론은 훗날 19세기 후반 [개화사상]의 형성에 큰 영향을 줌.`,
+          text: "북학파 실학자 박제가의 주장으로 가장 적절한 것은?",
+          choices: [
+            "우물에 비유하여 적절한 소비가 생산을 촉진한다고 보았으며, 청과의 통상 확대를 주장하였다.",
+            "사농공상의 신분제를 영구 유지하고 상인들의 활동을 철저히 금지해야 한다고 보았다.",
+            "서양 선교사들을 모조리 추방하고 쇄국 정책을 고수해야 한다고 보았다.",
+            "농업만이 유일한 생산 활동이므로 모든 상업 화폐를 불태우자고 보았다.",
+            "지구가 우주의 중심이며 절대 자전하지 않는다는 천동설을 옹호하였다."
+          ],
+          answer: 0,
+          explanation: "박제가는 『북학의』에서 재물을 우물에 비유하며 비단옷을 입지 않으면 비단 짜는 사람이 사라지듯, 활발한 '소비'가 생산을 자극한다고 주장했습니다."
+        },
+        {
+          id: "H_S24_02", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중상학파 실학",
+          passage: `『우서(迂書)』를 저술하여 "양반도 상업에 종사해야 하며, 사·농·공·상의 직업적 귀천을 없애고 전문성을 길러야 한다"고 주장한 중상학파 실학자는?`,
+          text: "위 실학자의 이름은?",
+          choices: ["유수원", "홍대용", "박지원", "박제가", "정약용"],
+          answer: 0,
+          explanation: "사농공상의 직업 평등과 상공업 진흥을 역설한 실학자는 '유수원'입니다."
+        },
+        {
+          id: "H_S24_03", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중상학파 실학",
+          passage: `홍대용이 『의산문답』에서 실옹과 허자의 대화를 통해 주장한 우주관과 사상으로 옳은 것은?`,
+          text: "홍대용의 학문적 견해는?",
+          choices: [
+            "지구가 하루에 한 바퀴씩 자전한다는 지전설과, 중국이 세계의 중심이 아니라는 무한 우주론을 주장하였다.",
+            "지구는 네모나고 평평하며 태양이 지구를 돈다고 주장하였다.",
+            "서양의 과학 기술은 사악한 마술이므로 엄벌해야 한다고 보았다.",
+            "모든 백성이 농사에만 전념해야 국가가 번영한다고 보았다.",
+            "신분 차별을 강화하여 노비의 문과 응시를 영구 금지해야 한다고 보았다."
+          ],
+          answer: 0,
+          explanation: "홍대용은 지전설과 무한 우주관을 바탕으로 성리학적 고정관념과 중국 중심의 세계관(중화사상)을 통렬히 비판하였습니다."
+        },
+        {
+          id: "H_S24_04", difficulty: "중", unit: "사회 변동과 농민봉기·실학", subTopic: "중상학파 실학",
+          passage: `청나라의 발달한 문물을 적극적으로 배우고 수용하자는 의미에서 상공업 중심 개혁론자들을 달리 부르는 명칭은?`,
+          text: "위 학파의 명칭은?",
+          choices: ["북학파", "성리학파", "척화파", "온건개화파", "위정척사파"],
+          answer: 0,
+          explanation: "북쪽 청나라의 선진 문물을 배우자고 주장한 실학자들을 '북학파'라고 부릅니다."
+        }
+      ],
+
+      // [슬롯 25] [고난도 상 ⑥] 조선 후기 국학(역사·지리·언어) 연구와 실학의 총체적 의의
+      [
+        {
+          id: "H_S25_01", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "국학 발달과 실학의 의의",
+          passage: `역사 학습지 21쪽 <실학의 발전과 국학(우리 것 찾기)의 결실>:\n(가) 역사: 유득공은 『발해고』를 저술하여 통일신라와 발해를 대등한 '남북국 시대'로 파악함으로써 발해사를 우리 민족사의 영역으로 확고히 편입하였다. 안정복은 『동사강목』을 써서 우리 역사의 독자적 체계를 세웠다.\n(나) 지리: 이중환은 인문 지리서인 『택리지』를 편찬하여 살기 좋은 거주 조건(지리·생리·인심·산수)을 분석하였고, 김정호는 정밀한 축척과 목판본을 갖춘 『대동여지도』를 제작하였다.\n(다) 언어: 신경준의 『훈민정음운해』, 유희의 『언문지』 등이 편찬되어 한글을 과학적으로 연구하였다.`,
+          text: "위 사료와 실학의 국학 연구에 대한 설명으로 옳은 것만을 <보기>에서 있는 대로 고른 것은?",
+          choices: [
+            "ㄱ, ㄴ, ㄷ",
+            "ㄱ, ㄹ",
+            "ㄴ, ㄷ, ㄹ",
+            "ㄷ, ㄹ",
+            "ㄱ, ㄴ, ㄷ, ㄹ"
+          ],
+          answer: 0,
+          explanation: "ㄹ은 오답입니다. 실학자들의 개혁안은 집권 세도 정권의 외면으로 국가 정책에 전면 채택되지는 못했으나, 훗날 19세기 개화사상 형성에 지대한 영향을 끼쳤습니다. (ㄱ, ㄴ, ㄷ 정답)"
+        },
+        {
+          id: "H_S25_02", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "국학 발달과 실학의 의의",
+          passage: `"부여씨(백제)가 망하고 고씨(고구려)가 망하자 김씨(신라)가 남쪽에 있었고, 대씨(발해)가 북쪽에 있어 남북국이라 불렀어야 마땅하다. 고려가 발해사를 쓰지 않았으니 옛 고구려 땅을 되찾을 명분을 잃어버렸다." - 『발해고』 서문 -`,
+          text: "위 글을 쓴 실학자와 그 역사적 의의로 옳은 것은?",
+          choices: [
+            "유득공 - 발해를 우리 민족사의 정통 영역으로 편입하고 남북국 시대로 규정하였다.",
+            "김정호 - 목판본 지도인 대동여지도를 제작하여 전국 지리를 완성하였다.",
+            "안정복 - 삼국유사를 저술하여 단군 신화를 체계화하였다.",
+            "이중환 - 택리지를 저술하여 풍수지리설만을 맹신하였다.",
+            "이제마 - 사상 의학을 제정하여 사람의 체질을 4가지로 분류하였다."
+          ],
+          answer: 0,
+          explanation: "유득공은 『발해고』에서 신라와 발해를 '남북국 시대'로 정의하여 발해사를 한국사의 당당한 한 축으로 확립하였습니다."
+        },
+        {
+          id: "H_S25_03", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "국학 발달과 실학의 의의",
+          passage: `이중환이 『택리지』에서 사람이 살기에 가장 좋은 명당(복거총론)으로 제시한 4가지 입지 조건이 아닌 것은?`,
+          text: "택리지의 4대 거주 조건에 해당하지 않는 것은?",
+          choices: ["과거 합격자의 수", "지리 (풍수적으로 좋은 지형)", "생리 (기름진 토지와 경제적 이로움)", "인심 (마을 사람들의 온화한 품성)", "산수 (수려한 자연 풍광)"],
+          answer: 0,
+          explanation: "학습지 21쪽: 이중환의 택리지 거주 조건 4가지는 '지리, 생리, 인심, 산수'입니다."
+        },
+        {
+          id: "H_S25_04", difficulty: "상", unit: "사회 변동과 농민봉기·실학", subTopic: "국학 발달과 실학의 의의",
+          passage: `조선 후기 의학의 발달로, 체질의 특성에 따라 사람을 태양인·태음인·소양인·소음인의 네 가지로 나누어 질병을 진단하고 치료법을 달리한 이제마의 의학 이론은?`,
+          text: "위 의학 이론의 명칭은?",
+          choices: ["사상 의학", "동의보감", "침구경험방", "마과회통", "종두법"],
+          answer: 0,
+          explanation: "학습지 21쪽: 이제마가 확립한 독창적인 체질 의학 체계는 '사상 의학'입니다."
+        }
+      ]
+    ];
+
+    // 25 Slots x 1 Unique Question Generator (Anti-Repeat Memory + Guaranteed Hard Tier)
+    function generateWorksheetHistoryExam() {
+      try {
+        let recentHistory = [];
+        try {
+          const savedHist = safeStorage.getItem('history_worksheet_recent_q_ids');
+          if (savedHist) recentHistory = JSON.parse(savedHist);
+        } catch (e) {}
+
+        const currentExamIds = [];
+        const exam25 = [];
+
+        // 25개 슬롯 순회 (Q05, Q09, Q13, Q17, Q21, Q25 슬롯은 '상' 난이도 필수 보장)
+        for (let slotIndex = 0; slotIndex < 25; slotIndex++) {
+          const slotQuestions = SLOT_MATRIX[slotIndex];
+          let candidates = slotQuestions.filter(q => !recentHistory.includes(q.id));
+          if (candidates.length === 0) {
+            candidates = slotQuestions;
+          }
+          const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+          currentExamIds.push(chosen.id);
+
+          const shuffled = shuffleChoices(chosen.choices, chosen.answer);
+          exam25.push({
+            ...chosen,
+            qNum: slotIndex + 1,
+            choices: shuffled.choices,
+            answer: shuffled.answerIndex
+          });
+        }
+
+        const updatedHistory = [...currentExamIds, ...recentHistory].slice(0, 80);
+        try {
+          safeStorage.setItem('history_worksheet_recent_q_ids', JSON.stringify(updatedHistory));
+        } catch (e) {}
+
+        return exam25;
+
+      } catch (err) {
+        console.error("History Exam generation fallback:", err);
+        return SLOT_MATRIX.map((slot, idx) => {
+          const q = slot[0];
+          const shuffled = shuffleChoices(q.choices, q.answer);
+          return {
+            ...q,
+            qNum: idx + 1,
+            choices: shuffled.choices,
+            answer: shuffled.answerIndex
+          };
+        });
+      }
+    }
+
+    function showStatusMessage(msg, type) {
+      const el = document.getElementById('introStatusMsg');
+      if (!el) return;
+      el.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200', 'bg-blue-50', 'text-blue-700', 'border-blue-200', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+      if (type === 'error') {
+        el.classList.add('bg-red-50', 'text-red-700', 'border-red-200');
+      } else if (type === 'success') {
+        el.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+      } else {
+        el.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200');
+      }
+      el.textContent = msg;
+    }
+
+    async function handleStartVerification(event) {
+      if (event && event.preventDefault) event.preventDefault();
+
+      const pinInput = document.getElementById('inputPin');
+      const nameInput = document.getElementById('inputName');
+      const btn = document.getElementById('btnStartExam');
+      const btnText = document.getElementById('btnStartExamText');
+
+      const pin = pinInput.value.trim();
+      const name = nameInput.value.trim();
+
+      if (!pin || pin.length < 3) {
+        showStatusMessage('학생 핀번호(학번 또는 숫자 4~6자리)를 입력해주세요.', 'error');
+        pinInput.focus();
+        return;
+      }
+      if (!name || name.length < 1) {
+        showStatusMessage('학생 성명을 입력해주세요.', 'error');
+        nameInput.focus();
+        return;
+      }
+
+      state.studentPin = pin;
+      state.studentName = name;
+
+      btn.disabled = true;
+      btnText.textContent = '확인 중...';
+      showStatusMessage('학생 정보를 확인하는 중입니다...', 'info');
+
+      try {
+        const data = await callServerJsonp('VERIFY_STUDENT', { pin, name }, 3500);
+        if (data && data.success) {
+          state.verifiedStatus = data.status;
+          state.currentExamRound = (data.examCount || 0) + 1;
+          showStatusMessage(data.message, 'success');
+          setTimeout(() => {
+            beginExam(generateWorksheetHistoryExam());
+          }, 350);
+          return;
+        } else if (data && !data.success) {
+          showStatusMessage(data.message, 'error');
+          btn.disabled = false;
+          btnText.textContent = '학생 확인 및 역사 시험 시작';
+          return;
+        }
+      } catch (err) {
+        console.warn("History verify fallback to persistent local bridge:", err);
+      }
+
+      const localPf = getStudentPortfolioLocally(pin);
+      const localCount = localPf && localPf.rounds ? localPf.rounds.length : 0;
+      state.currentExamRound = localCount + 1;
+      state.verifiedStatus = 'LOCAL_SYNC_READY';
+
+      showStatusMessage(`확인 완료! ${name} 학생 환영합니다. (역사 시험 시작)`, 'success');
+      setTimeout(() => {
+        beginExam(generateWorksheetHistoryExam());
+      }, 350);
+    }
+
+    function handleCheckPortfolioFromIntro(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      const pin = document.getElementById('inputPin').value.trim();
+      const name = document.getElementById('inputName').value.trim();
+      if (!pin) {
+        showStatusMessage('포트폴리오 조회를 위해 핀번호를 먼저 입력해주세요.', 'error');
+        document.getElementById('inputPin').focus();
+        return;
+      }
+      state.studentPin = pin;
+      state.studentName = name || '학생';
+      document.getElementById('screenIntro').classList.add('hidden');
+      document.getElementById('screenPortfolio').classList.remove('hidden');
+      fetchAndRenderPortfolio(pin);
+    }
+
+    function beginExam(questions) {
+      state.examQuestions = questions;
+      state.examSubmitted = false;
+      state.examStartTime = Date.now();
+
+      document.getElementById('screenIntro').classList.add('hidden');
+      document.getElementById('screenResult').classList.add('hidden');
+      document.getElementById('screenPortfolio').classList.add('hidden');
+      document.getElementById('screenExam').classList.remove('hidden');
+
+      const headerInfo = document.getElementById('headerExamInfo');
+      headerInfo.classList.remove('hidden');
+      document.getElementById('headerStudentName').textContent = `${state.studentName} (${state.studentPin})`;
+
+      buildOmrMinimap();
+      loadQuestion(state.currentQuestionIndex || 0);
+
+      clearInterval(state.timerInterval);
+      updateTimerDisplay();
+      state.timerInterval = setInterval(() => {
+        state.timeRemaining--;
+        updateTimerDisplay();
+        saveProgressToLocal();
+
+        if (state.timeRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          showModal('alert', '시험 시간 종료', '제한 시간 40분이 초과되어 답안이 자동 제출됩니다.', () => {
+            submitExam(true);
+          }, false);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const timerEl = document.getElementById('timerDisplay');
+      const min = Math.floor(Math.max(0, state.timeRemaining) / 60);
+      const sec = Math.max(0, state.timeRemaining) % 60;
+      timerEl.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+      if (state.timeRemaining < 300) {
+        timerEl.classList.add('urgent-timer');
+      } else {
+        timerEl.classList.remove('urgent-timer');
+      }
+    }
+
+    function buildOmrMinimap() {
+      const omrGrid = document.getElementById('omrGrid');
+      omrGrid.innerHTML = '';
+
+      let answeredCount = 0;
+      state.examQuestions.forEach((q, idx) => {
+        const isAnswered = state.userAnswers[idx] !== undefined;
+        if (isAnswered) answeredCount++;
+
+        const isCurrent = (idx === state.currentQuestionIndex);
+        const omrBtn = document.createElement('button');
+        omrBtn.type = 'button';
+        omrBtn.textContent = idx + 1;
+
+        let baseClass = "h-8 rounded-lg font-mono text-xs font-bold transition flex items-center justify-center border relative ";
+        if (isCurrent) {
+          baseClass += "border-blue-950 ring-2 ring-blue-800 ";
+        } else {
+          baseClass += "border-slate-200 ";
+        }
+
+        if (isAnswered) {
+          baseClass += "bg-blue-700 text-white";
+        } else {
+          baseClass += "bg-slate-50 text-slate-600 hover:bg-slate-100";
+        }
+
+        // 난이도 미니 점 표시
+        const diffColor = q.difficulty === '상' ? 'bg-rose-500' : (q.difficulty === '중' ? 'bg-blue-500' : 'bg-emerald-500');
+        omrBtn.className = baseClass;
+        omrBtn.innerHTML = `
+          <span>${idx + 1}</span>
+          <span class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full ${diffColor}"></span>
+        `;
+        omrBtn.onclick = () => loadQuestion(idx);
+        omrGrid.appendChild(omrBtn);
+      });
+
+      document.getElementById('answeredCountBadge').textContent = `${answeredCount} / 25 완료`;
+    }
+
+    function loadQuestion(index) {
+      if (!state.examQuestions || index < 0 || index >= state.examQuestions.length) return;
+      state.currentQuestionIndex = index;
+      const q = state.examQuestions[index];
+
+      document.getElementById('qBadgeNum').textContent = `[${String(q.qNum).padStart(2, '0')}]`;
+      
+      // 난이도 뱃지 스타일
+      const diffBadge = document.getElementById('qBadgeDiff');
+      diffBadge.textContent = `난이도: ${q.difficulty || '중'}`;
+      if (q.difficulty === '상') {
+        diffBadge.className = "text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-bold text-white bg-rose-600 shadow-xs";
+      } else if (q.difficulty === '하') {
+        diffBadge.className = "text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-bold text-white bg-emerald-600 shadow-xs";
+      } else {
+        diffBadge.className = "text-[11px] sm:text-xs px-2 py-0.5 rounded-md font-bold text-white bg-blue-600 shadow-xs";
+      }
+
+      document.getElementById('qBadgeUnit').textContent = q.unit;
+      document.getElementById('qBadgeTopic').textContent = q.subTopic;
+
+      const passageBox = document.getElementById('qPassageContainer');
+      if (q.passage && q.passage.trim().length > 0) {
+        passageBox.textContent = q.passage;
+        passageBox.classList.remove('hidden');
+      } else {
+        passageBox.classList.add('hidden');
+      }
+
+      // 학습지 시각 그래픽(SVG) 렌더링
+      const figureBox = document.getElementById('qFigureContainer');
+      if (q.svg && q.svg.trim().length > 0) {
+        figureBox.innerHTML = q.svg;
+        figureBox.classList.remove('hidden');
+      } else {
+        figureBox.classList.add('hidden');
+        figureBox.innerHTML = '';
+      }
+
+      // 보기 상자 렌더링 지원 (ㄱ, ㄴ, ㄷ 복합형 문항 처리)
+      const qTextEl = document.getElementById('qText');
+      if (q.id === 'H_S04_01') {
+        qTextEl.innerHTML = `
+          세조와 성종의 정책에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. 세조는 집현전을 폐지하고 경연을 중단하여 왕권을 강화하였다.<br>
+            ㄴ. 성종은 홍문관을 설치하고 경연을 다시 열어 유교 정치를 폈다.<br>
+            ㄷ. 세조는 토지 부족을 해결하고자 퇴직 관리에게만 수조권을 지급하였다.<br>
+            ㄹ. 성종은 세조 때 시작된 『경국대전』을 완성하여 반포하였다.
+          </div>
+        `;
+      } else if (q.id === 'H_S05_01') {
+        qTextEl.innerHTML = `
+          (가), (나), (다) 기구에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. (가)는 관리들의 비리를 감찰하는 사헌부이다.<br>
+            ㄴ. (나)는 국왕의 잘못을 비판하고 간언하는 사간원이다.<br>
+            ㄷ. (다)는 국왕의 비서실 역할을 전담하는 승정원이다.<br>
+            ㄹ. 3사는 권력의 독점과 부정을 방지하는 언론 기능을 수행하였다.
+          </div>
+        `;
+      } else if (q.id === 'H_S09_01') {
+        qTextEl.innerHTML = `
+          (가)와 (나)가 조선 사회에 미친 영향으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. (가)는 선현 제사와 성리학 연구 및 후진 양성을 전담하였다.<br>
+            ㄴ. (나)는 향촌 농민을 성리학적 질서로 교화하고 결속하였다.<br>
+            ㄷ. (가)와 (나)는 사림이 사화의 탄압을 이겨내고 성장한 핵심 기반이었다.<br>
+            ㄹ. (가)와 (나)는 훈구 세력이 권력을 유지하기 위해 만든 기구였다.
+          </div>
+        `;
+      } else if (q.id === 'H_S13_01') {
+        qTextEl.innerHTML = `
+          (가), (나), (다) 사건에 대한 역사적 평가로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. (가)는 광해군이 명과 후금 사이에서 전란을 피하고자 취한 중립 외교였다.<br>
+            ㄴ. (나)는 서인 세력이 인목대비 폐위와 친명배금 명분을 내세워 일으킨 인조반정이다.<br>
+            ㄷ. (다)는 청의 군신 관계 요구를 거절하여 발발한 병자호란의 결과이다.<br>
+            ㄹ. (다)의 결과 조선은 후금과 대등한 형제 관계를 맺고 북벌을 완수하였다.
+          </div>
+        `;
+      } else if (q.id === 'H_S17_01') {
+        qTextEl.innerHTML = `
+          (가) 왕과 (나) 왕의 정책에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. (가)는 붕당의 근거지인 서원을 정리하고 균역법을 실시한 영조이다.<br>
+            ㄴ. (나)는 규장각을 설치하고 수원 화성을 축조한 정조이다.<br>
+            ㄷ. (나)는 시전 상인의 금난전권을 폐지하는 신해통공을 단행하였다.<br>
+            ㄹ. (나) 사후 탕평 정치가 완성되어 백성들의 봉기가 완전히 종식되었다.
+          </div>
+        `;
+      } else if (q.id === 'H_S25_01') {
+        qTextEl.innerHTML = `
+          위 사료와 실학의 국학 연구에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?
+          <div class="bogi-box text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            <strong>&lt;보기&gt;</strong><br>
+            ㄱ. 유득공은 『발해고』를 통해 남북국 시대라는 새로운 역사 인식을 제시하였다.<br>
+            ㄴ. 김정호는 대동여지도를 만들어 국토의 지리 정보를 정밀하게 보급하였다.<br>
+            ㄷ. 신경준과 유희 등은 한글을 체계적으로 연구하여 민족의식을 고취하였다.<br>
+            ㄹ. 실학자들의 주장은 당시 세도 정권에 의해 즉시 국가 법률로 전면 채택되었다.
+          </div>
+        `;
+      } else {
+        qTextEl.textContent = q.text;
+      }
+
+      const choicesContainer = document.getElementById('qChoices');
+      choicesContainer.innerHTML = '';
+      const choiceIcons = ['①', '②', '③', '④', '⑤'];
+
+      q.choices.forEach((choiceText, cIdx) => {
+        const choiceBtn = document.createElement('button');
+        choiceBtn.type = "button";
+        const isSelected = state.userAnswers[index] === cIdx;
+
+        choiceBtn.className = `w-full text-left choice-card p-3 sm:p-4 rounded-xl border border-slate-200 flex items-start space-x-2.5 sm:space-x-3 transition ${
+          isSelected ? 'selected' : 'bg-white'
+        }`;
+
+        choiceBtn.innerHTML = `
+          <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm shrink-0 mt-0.5 ${
+            isSelected ? 'bg-blue-700 text-white' : 'bg-slate-100 text-slate-700'
+          }">
+            ${choiceIcons[cIdx]}
+          </span>
+          <span class="text-xs sm:text-sm font-medium flex-1 leading-relaxed">${choiceText}</span>
+        `;
+
+        choiceBtn.onclick = () => selectChoice(index, cIdx);
+        choicesContainer.appendChild(choiceBtn);
+      });
+
+      document.getElementById('btnPrevQ').disabled = (index === 0);
+      document.getElementById('btnPrevQ').classList.toggle('opacity-40', index === 0);
+
+      const isLast = (index === state.examQuestions.length - 1);
+      document.getElementById('btnNextQ').classList.toggle('hidden', isLast);
+      document.getElementById('btnFinishExam').classList.toggle('hidden', !isLast);
+
+      buildOmrMinimap();
+    }
+
+    function selectChoice(qIndex, choiceIndex) {
+      state.userAnswers[qIndex] = choiceIndex;
+      saveProgressToLocal();
+      loadQuestion(qIndex);
+    }
+
+    function navigateQuestion(direction) {
+      const nextIndex = state.currentQuestionIndex + direction;
+      if (nextIndex >= 0 && nextIndex < state.examQuestions.length) {
+        loadQuestion(nextIndex);
+      }
+    }
+
+    function confirmSubmitExam() {
+      const total = state.examQuestions.length;
+      const answered = Object.keys(state.userAnswers).length;
+      const unanswered = total - answered;
+
+      let msg = "답안을 제출하고 채점을 진행하시겠습니까?";
+      if (unanswered > 0) {
+        msg = `아직 풀지 않은 문제가 ${unanswered}개 있습니다. 이대로 제출하시겠습니까?`;
+      }
+
+      showModal('confirm', '역사 모의평가 최종 제출', msg, () => {
+        submitExam(false);
+      }, true);
+    }
+
+    async function submitExam(isAutoTimeout = false) {
+      clearInterval(state.timerInterval);
+      state.examSubmitted = true;
+
+      let totalScore = 0;
+      let domain1Score = 0; // 조선 건국과 통치 체제 (Q01~Q06, 24점 만점)
+      let domain2Score = 0; // 사림 성장과 사화·붕당 (Q07~Q11, 20점 만점)
+      let domain3Score = 0; // 대외 관계와 양난·변동 (Q12~Q18, 28점 만점)
+      let domain4Score = 0; // 사회 변동과 농민봉기·실학 (Q19~Q25, 28점 만점)
+
+      let hardCorrect = 0, hardTotal = 0;
+      let medCorrect = 0, medTotal = 0;
+      let easyCorrect = 0, easyTotal = 0;
+
+      const wrongQuestions = [];
+      const itemLogs = [];
+
+      for (let i = 0; i < state.examQuestions.length; i++) {
+        const q = state.examQuestions[i];
+        const userChoice = state.userAnswers[i];
+        const isCorrect = (userChoice === q.answer);
+
+        // 난이도 카운트
+        if (q.difficulty === '상') {
+          hardTotal++;
+          if (isCorrect) hardCorrect++;
+        } else if (q.difficulty === '하') {
+          easyTotal++;
+          if (isCorrect) easyCorrect++;
+        } else {
+          medTotal++;
+          if (isCorrect) medCorrect++;
+        }
+
+        if (isCorrect) {
+          totalScore += 4;
+          if (q.unit === "조선 건국과 통치 체제") domain1Score += 4;
+          else if (q.unit === "사림 성장과 사화·붕당") domain2Score += 4;
+          else if (q.unit === "대외 관계와 양난·변동") domain3Score += 4;
+          else if (q.unit === "사회 변동과 농민봉기·실학") domain4Score += 4;
+        } else {
+          wrongQuestions.push(`Q${q.qNum}`);
+        }
+
+        itemLogs.push({
+          qNum: `Q${q.qNum}`,
+          unit: q.unit,
+          subTopic: q.subTopic,
+          difficulty: q.difficulty || "중",
+          isCorrect: isCorrect,
+          userChoice: userChoice !== undefined ? (userChoice + 1) : "미응답",
+          answer: (q.answer + 1)
+        });
+      }
+
+      const timeSpentSec = EXAM_DURATION_SEC - state.timeRemaining;
+
+      state.scoreData = {
+        totalScore,
+        domain1Score,
+        domain2Score,
+        domain3Score,
+        domain4Score,
+        hardCorrect, hardTotal,
+        medCorrect, medTotal,
+        easyCorrect, easyTotal,
+        timeSpentSec,
+        wrongQuestions,
+        itemLogs
+      };
+
+      const roundSummary = {
+        round: state.currentExamRound,
+        totalScore: totalScore,
+        citizenScore: domain1Score,
+        justiceScore: domain2Score,
+        northScore: domain3Score,
+        unificationScore: domain4Score,
+        date: new Date().toLocaleDateString('ko-KR')
+      };
+      saveStudentPortfolioLocally(state.studentPin, state.studentName, roundSummary, itemLogs);
+
+      safeStorage.removeItem('history_worksheet_exam_state');
+      renderResultScreen();
+
+      // Background submit to Google Sheets
+      const payload = {
+        action: 'SUBMIT_EXAM',
+        data: {
+          pin: state.studentPin,
+          name: state.studentName,
+          totalScore,
+          citizenScore: domain1Score,
+          justiceScore: domain2Score,
+          northScore: domain3Score,
+          unificationScore: domain4Score,
+          timeSpentSec,
+          wrongQuestions,
+          itemLogs
+        }
+      };
+
+      try {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).then(r => r.json()).then(res => {
+          if (res && res.success) {
+            state.currentExamRound = res.round;
+          }
+        }).catch(e => {
+          console.warn("Background sheet sync note (offline safe):", e);
+        });
+      } catch (err) {
+        console.warn("Sheet submit attempt completed:", err);
+      }
+    }
+
+    function saveProgressToLocal() {
+      if (state.examSubmitted) return;
+      try {
+        const payload = {
+          pin: state.studentPin,
+          name: state.studentName,
+          examQuestions: state.examQuestions,
+          userAnswers: state.userAnswers,
+          timeRemaining: state.timeRemaining,
+          currentQuestionIndex: state.currentQuestionIndex,
+          timestamp: Date.now()
+        };
+        safeStorage.setItem('history_worksheet_exam_state', JSON.stringify(payload));
+      } catch (e) {}
+    }
+
+    function checkRecoverableSession() {
+      try {
+        const saved = safeStorage.getItem('history_worksheet_exam_state');
+        if (!saved) return;
+
+        const parsed = JSON.parse(saved);
+        if (parsed.examQuestions && parsed.examQuestions.length === 25 &&
+            Date.now() - parsed.timestamp < 50 * 60 * 1000 && parsed.timeRemaining > 0) {
+          showModal('info', '진행 중이던 역사 시험 복구', 
+            `이전에 응시 중이던 ${parsed.name} 학생의 답안과 남은 시간(${Math.floor(parsed.timeRemaining/60)}분)이 발견되었습니다. 이어서 시험을 치르시겠습니까?`,
+            () => {
+              state.studentPin = parsed.pin;
+              state.studentName = parsed.name;
+              state.userAnswers = parsed.userAnswers || {};
+              state.timeRemaining = parsed.timeRemaining;
+              state.currentQuestionIndex = parsed.currentQuestionIndex || 0;
+              beginExam(parsed.examQuestions);
+            },
+            true
+          );
+        } else {
+          safeStorage.removeItem('history_worksheet_exam_state');
+        }
+      } catch (e) {
+        safeStorage.removeItem('history_worksheet_exam_state');
+      }
+    }
+
+    function renderResultScreen() {
+      document.getElementById('screenExam').classList.add('hidden');
+      document.getElementById('screenResult').classList.remove('hidden');
+
+      const s = state.scoreData;
+      document.getElementById('resultStudentMeta').textContent = 
+        `${state.studentName} (${state.studentPin}) 수험생 · 응시 회차: ${state.currentExamRound}회`;
+
+      document.getElementById('resTotalScore').textContent = s.totalScore;
+      document.getElementById('resScoreSummary').textContent = 
+        `정답 ${Math.round(s.totalScore / 4)}개 / 오답 ${25 - Math.round(s.totalScore / 4)}개`;
+      
+      document.getElementById('resDomain1Score').textContent = `${s.domain1Score}점`;
+      document.getElementById('resDomain2Score').textContent = `${s.domain2Score}점`;
+      document.getElementById('resDomain3Score').textContent = `${s.domain3Score}점`;
+      document.getElementById('resDomain4Score').textContent = `${s.domain4Score}점`;
+
+      // 난이도별 정답 수치 반영
+      document.getElementById('resDiffHard').textContent = `${s.hardCorrect} / ${s.hardTotal} 완료`;
+      document.getElementById('resDiffMed').textContent = `${s.medCorrect} / ${s.medTotal} 완료`;
+      document.getElementById('resDiffEasy').textContent = `${s.easyCorrect} / ${s.easyTotal} 완료`;
+
+      renderReviewQuestions();
+    }
+
+    function renderReviewQuestions() {
+      const container = document.getElementById('reviewQuestionsContainer');
+      container.innerHTML = '';
+
+      state.examQuestions.forEach((q, idx) => {
+        const userChoice = state.userAnswers[idx];
+        const isCorrect = (userChoice === q.answer);
+
+        if (state.reviewFilter === 'WRONG' && isCorrect) return;
+
+        const choiceIcons = ['①', '②', '③', '④', '⑤'];
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-2xl border ${
+          isCorrect ? 'bg-slate-50 border-slate-200' : 'bg-red-50/40 border-red-200'
+        } space-y-3`;
+
+        let statusBadge = isCorrect
+          ? `<span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-xs font-bold"><i class="fa-solid fa-check mr-1"></i>정답</span>`
+          : `<span class="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 text-xs font-bold"><i class="fa-solid fa-xmark mr-1"></i>오답</span>`;
+
+        const diffBadge = q.difficulty === '상' 
+          ? `<span class="px-1.5 py-0.5 rounded bg-rose-600 text-white text-[10px] font-bold">상</span>`
+          : (q.difficulty === '하' ? `<span class="px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold">하</span>` : `<span class="px-1.5 py-0.5 rounded bg-blue-600 text-white text-[10px] font-bold">중</span>`);
+
+        let passageHtml = '';
+        if (q.passage && q.passage.trim().length > 0) {
+          passageHtml = `<div class="passage-box p-3 rounded-xl text-xs text-slate-700 whitespace-pre-line">${q.passage}</div>`;
+        }
+
+        let userChoiceText = userChoice !== undefined 
+          ? `${choiceIcons[userChoice]} ${q.choices[userChoice]}` 
+          : '<span class="text-rose-600 font-bold">미응답</span>';
+        let correctChoiceText = `${choiceIcons[q.answer]} ${q.choices[q.answer]}`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-sm text-slate-800">[Q${q.qNum}]</span>
+              ${diffBadge}
+              <span class="text-xs text-blue-900 font-semibold">${q.unit}</span>
+              <span class="text-xs text-slate-500 font-medium">· ${q.subTopic}</span>
+            </div>
+            ${statusBadge}
+          </div>
+          ${passageHtml}
+          <div class="text-sm font-medium text-slate-800">${q.text}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-white p-2.5 rounded-xl border border-slate-200">
+            <div><span class="text-slate-500">내가 고른 답:</span> <strong>${userChoiceText}</strong></div>
+            <div><span class="text-slate-500">실제 정답:</span> <strong class="text-blue-900">${correctChoiceText}</strong></div>
+          </div>
+          <div class="text-xs bg-blue-50/70 p-3 rounded-xl border border-blue-200 text-slate-700 leading-relaxed">
+            <div class="font-bold text-blue-900 mb-1 flex items-center space-x-1">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i>
+              <span>학습지 핵심 역사 해설 및 오답 분석</span>
+            </div>
+            <div>${q.explanation || '해설이 제공되지 않는 문항입니다.'}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function setReviewFilter(filter) {
+      state.reviewFilter = filter;
+      document.getElementById('filterTabAll').className = filter === 'ALL'
+        ? "px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 transition"
+        : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+      document.getElementById('filterTabWrong').className = filter === 'WRONG'
+        ? "px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 transition"
+        : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+      renderReviewQuestions();
+    }
+
+    function handleRestartClinic() {
+      if (!state.scoreData || !state.scoreData.wrongQuestions) return;
+      const wrongList = state.examQuestions.filter((q, idx) => state.userAnswers[idx] !== q.answer);
+      if (wrongList.length === 0) {
+        showModal('info', '오답 클리닉 안내', '틀린 문제가 없습니다! 100점 만점을 축하합니다.', null, false);
+        return;
+      }
+      state.userAnswers = {};
+      state.timeRemaining = wrongList.length * 120;
+      state.currentQuestionIndex = 0;
+      beginExam(wrongList);
+    }
+
+    function handleViewPortfolio() {
+      document.getElementById('screenResult').classList.add('hidden');
+      document.getElementById('screenPortfolio').classList.remove('hidden');
+      fetchAndRenderPortfolio(state.studentPin);
+    }
+
+    function handleBackFromPortfolio() {
+      document.getElementById('screenPortfolio').classList.add('hidden');
+      if (state.scoreData) {
+        document.getElementById('screenResult').classList.remove('hidden');
+      } else {
+        document.getElementById('screenIntro').classList.remove('hidden');
+        document.getElementById('btnStartExam').disabled = false;
+        document.getElementById('btnStartExamText').textContent = '학생 확인 및 역사 시험 시작';
+      }
+    }
+
+    async function fetchAndRenderPortfolio(pin) {
+      const feedbackEl = document.getElementById('portfolioAiFeedback');
+
+      let localData = getStudentPortfolioLocally(pin);
+      if (localData && localData.rounds && localData.rounds.length > 0) {
+        renderPortfolioCharts(localData);
+        generateAiFeedback(localData);
+      } else {
+        feedbackEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2 text-blue-700"></i>누적 역사 포트폴리오를 불러오는 중입니다...';
+      }
+
+      try {
+        const serverData = await callServerJsonp('GET_PORTFOLIO', { pin }, 4000);
+        if (serverData && serverData.success && serverData.rounds && serverData.rounds.length > 0) {
+          renderPortfolioCharts(serverData);
+          generateAiFeedback(serverData);
+          safeStorage.setItem(`history_worksheet_portfolio_${pin}`, JSON.stringify({
+            name: state.studentName,
+            pin: pin,
+            rounds: serverData.rounds,
+            domainStats: serverData.domainStats,
+            topicStats: serverData.topicStats
+          }));
+        }
+      } catch (err) {
+        console.warn("Background server history portfolio sync note:", err);
+      }
+    }
+
+    function renderPortfolioCharts(data) {
+      document.getElementById('portfolioStudentName').textContent = state.studentName || '학생';
+      document.getElementById('portfolioPinBadge').textContent = `PIN: ${state.studentPin || '-'}`;
+
+      // 1) Rounds line chart
+      const roundsCanvas = document.getElementById('chartScoreRounds');
+      if (roundsCanvas && data.rounds) {
+        const labels = data.rounds.map(r => `${r.round}회차`);
+        const scores = data.rounds.map(r => r.totalScore);
+
+        if (roundsChartInstance) roundsChartInstance.destroy();
+        roundsChartInstance = new Chart(roundsCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '총점 (100점 만점)',
+              data: scores,
+              borderColor: '#1e3a8a',
+              backgroundColor: 'rgba(30, 58, 138, 0.1)',
+              borderWidth: 2.5,
+              tension: 0.3,
+              fill: true,
+              pointRadius: 5,
+              pointBackgroundColor: '#172554'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { min: 0, max: 100, ticks: { stepSize: 20 } }
+            }
+          }
+        });
+      }
+
+      // 2) 4 History Domains Radar Chart
+      const radarCanvas = document.getElementById('chartDomainRadar');
+      if (radarCanvas) {
+        const domainPercentages = calculateDomainPercentages(data.domainStats);
+
+        if (radarChartInstance) radarChartInstance.destroy();
+        radarChartInstance = new Chart(radarCanvas.getContext('2d'), {
+          type: 'radar',
+          data: {
+            labels: DOMAIN_KEYS,
+            datasets: [{
+              label: '영역별 성취도 (%)',
+              data: domainPercentages,
+              borderColor: '#4338ca',
+              backgroundColor: 'rgba(67, 56, 202, 0.2)',
+              borderWidth: 2,
+              pointBackgroundColor: '#3730a3'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: { min: 0, max: 100, ticks: { stepSize: 25, display: false } }
+            }
+          }
+        });
+      }
+
+      // 3) Subtopic bars
+      const barsContainer = document.getElementById('portfolioTopicBars');
+      if (barsContainer && data.topicStats) {
+        barsContainer.innerHTML = '';
+        Object.keys(data.topicStats).forEach(tName => {
+          const st = data.topicStats[tName];
+          const pct = Math.round((st.correct / st.total) * 100) || 0;
+          const barDiv = document.createElement('div');
+          barDiv.className = "bg-white p-3 rounded-xl border border-slate-200 text-xs";
+          barDiv.innerHTML = `
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-bold text-slate-800 truncate">${tName}</span>
+              <span class="font-mono text-slate-500">${st.correct}/${st.total} (${pct}%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-blue-700 h-2 rounded-full transition-all" style="width: ${pct}%"></div>
+            </div>
+          `;
+          barsContainer.appendChild(barDiv);
+        });
+      }
+    }
+
+    function calculateDomainPercentages(stats) {
+      if (!stats) return [85, 80, 80, 85];
+      return DOMAIN_KEYS.map(k => {
+        if (stats[k] && stats[k].total > 0) {
+          return Math.round((stats[k].correct / stats[k].total) * 100);
+        }
+        return 80;
+      });
+    }
+
+    function generateAiFeedback(data) {
+      const fbEl = document.getElementById('portfolioAiFeedback');
+      if (!fbEl) return;
+      const avgScore = data.rounds && data.rounds.length > 0
+        ? Math.round(data.rounds.reduce((acc, r) => acc + r.totalScore, 0) / data.rounds.length)
+        : 80;
+
+      let weakest = "대외 관계와 양난·변동";
+      if (data.domainStats) {
+        let minRatio = 999;
+        Object.keys(data.domainStats).forEach(k => {
+          const item = data.domainStats[k];
+          if (item.total > 0) {
+            const ratio = item.correct / item.total;
+            if (ratio < minRatio) {
+              minRatio = ratio;
+              weakest = k;
+            }
+          }
+        });
+      }
+
+      let advice = "";
+      if (avgScore >= 90) {
+        advice = `${state.studentName} 학생은 조선 시대 삼사의 구체적 역할과 붕당 정치기 변질, 영·정조 탕평책의 차이, 홍경래의 난과 임술 농민 봉기 사료 분석, 중농·중상 실학자들의 개혁론 비교 등 고난도 [상] 문항에서 완벽한 사료 분석력을 발휘하고 있습니다. 기말고사 역사 100점 만점이 유력합니다.`;
+      } else if (avgScore >= 75) {
+        advice = `${state.studentName} 학생은 조선 전기의 국왕별 주요 업적과 4대 사화의 흐름, 대동법과 균역법 등 핵심 개념을 안정적으로 파악하고 있습니다. 다만, 고난도 [상] 문항인 '${weakest}' 영역(광해군의 중립외교와 병자호란의 전개, 비변사의 권력 독점 과정)에서 사료를 꼼꼼하게 대조하는 오답 클리닉 학습을 권장합니다.`;
+      } else {
+        advice = `${state.studentName} 학생은 학습지 기본 개념어(과전법과 직전법의 수조권 차이, 3사의 명칭, 4대 사화의 순서, 3대 조세 개편의 대상)를 우선 복습해야 합니다. '틀린 문제 다시 풀기'를 통해 각 사건의 인과관계를 차근차근 점검해 보세요.`;
+      }
+      fbEl.textContent = advice;
+    }
+
+    function showModal(type, title, desc, onConfirm, showCancel = false) {
+      const modal = document.getElementById('customModal');
+      const iconContainer = document.getElementById('modalIconContainer');
+      const titleEl = document.getElementById('modalTitle');
+      const descEl = document.getElementById('modalDesc');
+      const btnGroup = document.getElementById('modalButtons');
+
+      titleEl.textContent = title;
+      descEl.textContent = desc;
+
+      if (type === 'alert' || type === 'error') {
+        iconContainer.className = "w-10 h-10 sm:w-12 sm:h-12 rounded-full mx-auto flex items-center justify-center text-base sm:text-lg mb-3 bg-red-100 text-red-600";
+        iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+      } else if (type === 'confirm') {
+        iconContainer.className = "w-10 h-10 sm:w-12 sm:h-12 rounded-full mx-auto flex items-center justify-center text-base sm:text-lg mb-3 bg-blue-100 text-blue-800";
+        iconContainer.innerHTML = '<i class="fa-solid fa-circle-question"></i>';
+      } else {
+        iconContainer.className = "w-10 h-10 sm:w-12 sm:h-12 rounded-full mx-auto flex items-center justify-center text-base sm:text-lg mb-3 bg-slate-100 text-slate-600";
+        iconContainer.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      }
+
+      btnGroup.innerHTML = '';
+      if (showCancel) {
+        const cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = "px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl active:bg-slate-200 transition";
+        cancelBtn.textContent = '취소';
+        cancelBtn.onclick = closeModal;
+        btnGroup.appendChild(cancelBtn);
+      }
+
+      const confirmBtn = document.createElement('button');
+      confirmBtn.type = 'button';
+      confirmBtn.className = "px-5 py-2 bg-blue-900 text-white text-xs font-bold rounded-xl active:bg-blue-800 transition";
+      confirmBtn.textContent = '확인';
+      confirmBtn.onclick = () => {
+        closeModal();
+        if (onConfirm) onConfirm();
+      };
+      btnGroup.appendChild(confirmBtn);
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('customModal').classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      checkRecoverableSession();
+    });
+  </script>
+</body>
+</html>
